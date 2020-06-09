@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "restApi.subscriptionKey",
+      "type": "java.lang.String",
+      "description": "get your restApi.subscriptionKey from -> https://developer.smartable.ai/"
+    },
+    {
+      "name": "google.mapsApiKey",
+      "type": "java.lang.String",
+      "description": "get your google.mapsApiKey from google"
+    }
+  ] }
