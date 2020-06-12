@@ -66,36 +66,38 @@
             </div>
             <div class="row">
                 <div id="container" class="container">
-                    <table class="table table-striped text-center" id="countryList">
-                        <tr class="p-3 mb-2 bg-primary text-white text-center">
-                            <th>#</th>
-                            <th>Country Name</th>
-                            <th>New Cases</th>
-                            <th>New Deaths</th>
-                            <th>New Recovered</th>
-                            <th>Total Cases</th>
-                            <th>Total Deaths</th>
-                            <th>Total Recovered</th>
-                        </tr>
-                        <c:forEach var="breakdown" items="${breakdowns}" varStatus="status">
-                            <tr>
-                                <td><h:outputText value="${status.count}"/></td>
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/covid/?countryCode=${breakdown.location.isoCode}">
-                                        <h:outputText
-                                                value="${breakdown.location.countryOrRegion}  ${breakdown.location.provinceOrState}"/>
-                                    </a>
-                                </td>
-                                <td> ${breakdown.newlyConfirmedCases} </td>
-                                <td> ${breakdown.newDeaths} </td>
-                                <td> ${breakdown.newlyRecoveredCases} </td>
-                                <td> ${breakdown.totalConfirmedCases} </td>
-                                <td> ${breakdown.totalDeaths} </td>
-                                <td> ${breakdown.totalRecoveredCases} </td>
-
+                    <div class="table-responsive">
+                        <table class="table table-striped text-center" id="countryList">
+                            <tr class="p-3 mb-2 bg-primary text-white text-center">
+                                <th>#</th>
+                                <th>Country Name</th>
+                                <th>New Cases</th>
+                                <th>New Deaths</th>
+                                <th>New Recovered</th>
+                                <th>Total Cases</th>
+                                <th>Total Deaths</th>
+                                <th>Total Recovered</th>
                             </tr>
-                        </c:forEach>
-                    </table>
+                            <c:forEach var="breakdown" items="${breakdowns}" varStatus="status">
+                                <tr>
+                                    <td><h:outputText value="${status.count}"/></td>
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/covid/?countryCode=${breakdown.location.isoCode}">
+                                            <h:outputText
+                                                    value="${breakdown.location.countryOrRegion}  ${breakdown.location.provinceOrState}"/>
+                                        </a>
+                                    </td>
+                                    <td> ${breakdown.newlyConfirmedCases} </td>
+                                    <td> ${breakdown.newDeaths} </td>
+                                    <td> ${breakdown.newlyRecoveredCases} </td>
+                                    <td> ${breakdown.totalConfirmedCases} </td>
+                                    <td> ${breakdown.totalDeaths} </td>
+                                    <td> ${breakdown.totalRecoveredCases} </td>
+
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

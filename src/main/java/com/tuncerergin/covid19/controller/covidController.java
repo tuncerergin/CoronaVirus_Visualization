@@ -87,7 +87,7 @@ public class covidController {
         totalCasesLineModel();
         recoveredCasesLineModel();
         deathsCasesLineModel();
-        allCasesLineModel();
+        activeCasesLineModel();
         deathsRecoveredLineModel();
         createNewCasesBarModel();
         createRecoveredCasesBarModel();
@@ -245,18 +245,6 @@ public class covidController {
                 labels.add(outputFormatter.format(date1));
             }
         }
-
-        confirmedCasesDataSet.setData(values);
-        confirmedCasesDataSet.setFill(false);
-        confirmedCasesDataSet.setBorderWidth(1);
-        confirmedCasesDataSet.setLabel("Total Confirmed Cases");
-        confirmedCasesDataSet.setBorderColor("#ffc107");
-        confirmedCasesDataSet.setLineTension(0.1);
-        confirmedCasesDataSet.setPointStyle("circle");
-        confirmedCasesDataSet.setPointBorderWidth(0.1);
-        confirmedCasesData.addChartDataSet(confirmedCasesDataSet);
-        confirmedCasesData.setLabels(labels);
-
         //Options
         LineChartOptions options = new LineChartOptions();
         Title title = new Title();
@@ -266,6 +254,7 @@ public class covidController {
         options.setTitle(title);
         totalCasesLineChart.setOptions(options);
         totalCasesLineChart.setData(confirmedCasesData);
+        totalCasesLineChart.setData(getChartData(values, labels, "Total Confirmed Cases", "#ffc107"));
     }
 
     public void recoveredCasesLineModel() {
@@ -315,53 +304,32 @@ public class covidController {
         deathsCasesLineChart.setData(getChartData(values, labels, "Deaths Cases", "#dc3545"));
     }
 
-    public void allCasesLineModel() {
+    public void activeCasesLineModel() {
         cartesianLinerModel = new LineChartModel();
         ChartData data = new ChartData();
 
         LineChartDataSet dataSet = new LineChartDataSet();
         List<Number> values = new ArrayList<>();
-        LineChartDataSet dataSet2 = new LineChartDataSet();
-        List<Number> values2 = new ArrayList<>();
-        LineChartDataSet dataSet3 = new LineChartDataSet();
-        List<Number> values3 = new ArrayList<>();
         List<String> labels = new ArrayList<>();
         for (History dailyCase : coronaVirus.getStats().getHistory()) {
             if (dailyCase.getConfirmed() != 0) {
                 LocalDate date1 = LocalDate.parse(dailyCase.getDate() + ".000Z", inputFormatter);
                 labels.add(outputFormatter.format(date1));
-                values.add(dailyCase.getConfirmed());
-                values2.add(dailyCase.getRecovered());
-                values3.add(dailyCase.getDeaths());
+                values.add(dailyCase.getConfirmed()-dailyCase.getRecovered()-dailyCase.getDeaths());
+
             }
         }
         dataSet.setData(values);
-        dataSet.setLabel("Total Cases");
+        dataSet.setLabel("Active Cases");
         dataSet.setYaxisID("left-y-axis");
-        dataSet.setBackgroundColor("rgba(255, 159, 64, 0)");
-        dataSet.setBorderColor("rgb(255, 159, 64)");
+        dataSet.setBackgroundColor("rgba(138, 74, 243, 0)");
+        dataSet.setBorderColor("rgb(138, 74, 243)");
         dataSet.setPointStyle("circle");
         dataSet.setPointBorderWidth(0.1);
 
-        dataSet2.setData(values2);
-        dataSet2.setLabel("Recovered Cases");
-        dataSet2.setYaxisID("right-y-axis");
-        dataSet2.setBackgroundColor("rgba(97, 255, 163, 0)");
-        dataSet2.setBorderColor("rgb(97, 255, 163)");
-        dataSet2.setPointStyle("circle");
-        dataSet2.setPointBorderWidth(0.1);
 
-        dataSet3.setData(values3);
-        dataSet3.setLabel("Deaths Cases");
-        dataSet3.setYaxisID("right-y-axis");
-        dataSet3.setBackgroundColor("rgba(255, 99, 132, 0)");
-        dataSet3.setBorderColor("rgb(255, 99, 132)");
-        dataSet3.setPointStyle("circle");
-        dataSet3.setPointBorderWidth(0.1);
 
         data.addChartDataSet(dataSet);
-        data.addChartDataSet(dataSet2);
-        data.addChartDataSet(dataSet3);
 
         data.setLabels(labels);
         cartesianLinerModel.setData(data);
@@ -372,17 +340,13 @@ public class covidController {
         CartesianLinearAxes linearAxes = new CartesianLinearAxes();
         linearAxes.setId("left-y-axis");
         linearAxes.setPosition("left");
-        CartesianLinearAxes linearAxes2 = new CartesianLinearAxes();
-        linearAxes2.setId("right-y-axis");
-        linearAxes2.setPosition("right");
 
         cScales.addYAxesData(linearAxes);
-        cScales.addYAxesData(linearAxes2);
         options.setScales(cScales);
 
         Title title = new Title();
         title.setDisplay(true);
-        title.setText("All Cases");
+        title.setText("Active Cases");
         options.setTitle(title);
         options.setLegend(getLegend());
         cartesianLinerModel.setOptions(options);
@@ -595,18 +559,18 @@ public class covidController {
         return legend;
     }
 
+
+
     public ChartData getChartData(List<Number> values, List<String> labels, String label, String color) {
         ChartData chartData = new ChartData();
 
         LineChartDataSet lineChartDataSet = new LineChartDataSet();
         lineChartDataSet.setData(values);
-        lineChartDataSet.setFill(false);
         lineChartDataSet.setLabel(label);
         lineChartDataSet.setBorderColor(color);
-        lineChartDataSet.setLineTension(0.1);
+        lineChartDataSet.setBackgroundColor("rgba(255, 255, 255, 0)");
         lineChartDataSet.setPointStyle("circle");
         lineChartDataSet.setPointBorderWidth(0.1);
-
         chartData.addChartDataSet(lineChartDataSet);
         chartData.setLabels(labels);
         return chartData;
