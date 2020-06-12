@@ -34,7 +34,6 @@ public class RestServiceImpl implements RestService {
         responseHeaders = new HttpHeaders();
         responseHeaders.set("Subscription-Key",
                 subscriptionKey);
-        System.out.println("Key: "+ subscriptionKey);
         request = new HttpEntity(responseHeaders);
 
         ResponseEntity<CoronaVirus> responseEntity =

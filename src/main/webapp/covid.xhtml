@@ -50,19 +50,24 @@
                     <p:lineChart model="#{covidController.totalCasesLineChart}" styleClass="m-2"/>
                     <p:lineChart model="#{covidController.cartesianLinerModel}" styleClass="m-2"/>
                     <p:barChart model="#{covidController.dailyNewCasesChart}" styleClass="m-2"/>
+                    <p:lineChart model="#{covidController.mortalityRateChart}" styleClass="m-2"/>
                 </div>
                 <div class="col-md-4">
                     <p:lineChart model="#{covidController.recoveredCasesLineChart}"
                                  styleClass="m-2"/>
-                    <p:barChart model="#{covidController.mountlyCases}" styleClass="m-2"/>
+                    <p:barChart model="#{covidController.monthlyCases}" styleClass="m-2"/>
                     <p:barChart model="#{covidController.dailyRecoveredChart}" styleClass="m-2"/>
+                    <p:lineChart model="#{covidController.recoveredRateChart}" styleClass="m-2"/>
                 </div>
                 <div class="col-md-4">
                     <p:lineChart model="#{covidController.deathsCasesLineChart}" styleClass="m-2"/>
                     <p:lineChart model="#{covidController.recoveredDeathsLinerModel}"
                                  styleClass="m-2"/>
                     <p:barChart model="#{covidController.dailyDeathsChart}" styleClass="m-2"/>
+                    <p:lineChart model="#{covidController.recoveryDeathRateLinerModel}"
+                                 styleClass="m-2"/>
                 </div>
+
             </div>
             <div class="row">
                 <div id="container" class="container">

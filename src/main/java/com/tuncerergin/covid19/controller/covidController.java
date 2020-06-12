@@ -3,6 +3,7 @@ package com.tuncerergin.covid19.controller;
 import com.tuncerergin.covid19.model.Breakdown;
 import com.tuncerergin.covid19.model.CoronaVirus;
 import com.tuncerergin.covid19.model.History;
+import com.tuncerergin.covid19.model.MonthlyTotalCases;
 import com.tuncerergin.covid19.service.RestService;
 import lombok.Data;
 import org.primefaces.model.charts.ChartData;
@@ -42,7 +43,10 @@ public class covidController {
     private LineChartModel allCasesLineChart;
     private LineChartModel cartesianLinerModel;
     private LineChartModel recoveredDeathsLinerModel;
-    private BarChartModel mountlyCases;
+    private LineChartModel mortalityRateChart;
+    private LineChartModel recoveredRateChart;
+    private LineChartModel recoveryDeathRateLinerModel;
+    private BarChartModel monthlyCases;
     private BarChartModel dailyRecoveredChart;
     private BarChartModel dailyDeathsChart;
     private BarChartModel dailyNewCasesChart;
@@ -53,21 +57,12 @@ public class covidController {
     TreeMap<LocalDate, Integer> dailyConfirmed;
     TreeMap<LocalDate, Integer> dailyDeaths;
     TreeMap<LocalDate, Integer> dailyRecovered;
+    List<MonthlyTotalCases> monthlyTotalCasesList = new ArrayList<>();
     String lastUpdateTime;
     private final RestService restService;
 
     public covidController(RestService restService) {
         this.restService = restService;
-    }
-
-    @GetMapping("/global")
-    public String globalData(Model model) {
-        init("global");
-        List<Breakdown> breakdownList = coronaVirus.getStats().getBreakdowns();
-        breakdownList.sort((br1, br2) -> br2.getTotalConfirmedCases() - br1.getTotalConfirmedCases());
-        model.addAttribute("breakdowns", breakdownList);
-
-        return "covid.xhtml";
     }
 
     @GetMapping("/covid")
@@ -83,7 +78,7 @@ public class covidController {
 
     public void init(String countryCode) {
         getData(countryCode);
-        mountlyCases();
+        monthlyCases();
         totalCasesLineModel();
         recoveredCasesLineModel();
         deathsCasesLineModel();
@@ -92,83 +87,68 @@ public class covidController {
         createNewCasesBarModel();
         createRecoveredCasesBarModel();
         createDeathsBarModel();
+        mortalityRateLineModel();
+        recoveredRateLineModel();
+        recoveryDeathRateLineModel();
     }
 
     public void getData(String countryCode) {
         coronaVirus = restService.getData(countryCode);
     }
 
-    private void mountlyCases() {
-        mountlyCases = new BarChartModel();
+    private void monthlyCases() {
+        monthlyCases = new BarChartModel();
         dailyConfirmed = new TreeMap<>();
         dailyRecovered = new TreeMap<>();
         dailyDeaths = new TreeMap<>();
-        int marchTotal = 0, marchDead = 0, marchRecovered = 0;
-        int aprilTotal = 0, aprilDead = 0, aprilRecovered = 0;
-        int mayTotal = 0, mayDead = 0, mayRecovered = 0;
-        int junTotal = 0, junDead = 0, junRecovered = 0;
+        for (int i = 0; i < 24; i++) {
+            monthlyTotalCasesList.add(new MonthlyTotalCases());
+        }
 
-
-        History beforeToday = coronaVirus.getStats().getHistory().get(0);
+        History yesterday = coronaVirus.getStats().getHistory().get(0);
         for (History dailyCase : coronaVirus.getStats().getHistory()) {
             if (dailyCase.getConfirmed() != 0) {
                 LocalDate date = LocalDate.parse(dailyCase.getDate() + ".000Z", inputFormatter);
-                dailyConfirmed.put(date, dailyCase.getConfirmed() - beforeToday.getConfirmed());
-                dailyRecovered.put(date, dailyCase.getRecovered() - beforeToday.getRecovered());
-                dailyDeaths.put(date, dailyCase.getDeaths() - beforeToday.getDeaths());
-                beforeToday = dailyCase;
 
+                int confirmed = dailyCase.getConfirmed() - yesterday.getConfirmed();
+                int recovered = dailyCase.getRecovered() - yesterday.getRecovered();
+                int dead = dailyCase.getDeaths() - yesterday.getDeaths();
+                yesterday = dailyCase;
+
+                dailyConfirmed.put(date, confirmed);
+                dailyRecovered.put(date, recovered);
+                dailyDeaths.put(date, dead);
+
+                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
+                LocalDate convertedDate = LocalDate.parse(outputFormatter.format(date), DateTimeFormatter.ofPattern("M/d/yyyy"));
+
+                MonthlyTotalCases monthlyTotalCases = monthlyTotalCasesList.get(convertedDate.getMonth().getValue());
+
+                monthlyTotalCases.setMonthName(convertedDate.getMonth().name());
+                monthlyTotalCases.setTotalCases(monthlyTotalCases.getTotalCases() + confirmed);
+                monthlyTotalCases.setTotalRecovered(monthlyTotalCases.getTotalRecovered() + recovered);
+                monthlyTotalCases.setTotalDeath(monthlyTotalCases.getTotalDeath() + dead);
+
+                monthlyTotalCasesList.set(convertedDate.getMonth().getValue(), monthlyTotalCases);
             }
         }
-
-
-        for (Map.Entry<LocalDate, Integer> entry : dailyConfirmed.entrySet()) {
-            if (entry.getKey().getMonth().getValue() == 3) {
-                marchTotal = marchTotal + entry.getValue();
-            } else if (entry.getKey().getMonth().getValue() == 4) {
-                aprilTotal = aprilTotal + entry.getValue();
-            } else if (entry.getKey().getMonth().getValue() == 5) {
-                mayTotal = mayTotal + entry.getValue();
-            } else if (entry.getKey().getMonth().getValue() == 6) {
-                junTotal = junTotal + entry.getValue();
+        List<Number> values = new ArrayList<>();
+        List<Number> values2 = new ArrayList<>();
+        List<Number> values3 = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+        for (MonthlyTotalCases t : monthlyTotalCasesList) {
+            if (t.getMonthName() != null) {
+                values.add(t.getTotalCases());
+                values2.add(t.getTotalRecovered());
+                values3.add(t.getTotalDeath());
+                labels.add(t.getMonthName());
             }
         }
-        for (Map.Entry<LocalDate, Integer> entry : dailyDeaths.entrySet()) {
-            if (entry.getKey().getMonth().getValue() == 3) {
-                marchDead = marchDead + entry.getValue();
-            } else if (entry.getKey().getMonth().getValue() == 4) {
-                aprilDead = aprilDead + entry.getValue();
-            } else if (entry.getKey().getMonth().getValue() == 5) {
-                mayDead = mayDead + entry.getValue();
-            } else if (entry.getKey().getMonth().getValue() == 6) {
-                junDead = junDead + entry.getValue();
-            }
-        }
-        for (Map.Entry<LocalDate, Integer> entry : dailyRecovered.entrySet()) {
-            if (entry.getKey().getMonth().getValue() == 3) {
-                marchRecovered = marchRecovered + entry.getValue();
-            } else if (entry.getKey().getMonth().getValue() == 4) {
-                aprilRecovered = aprilRecovered + entry.getValue();
-            } else if (entry.getKey().getMonth().getValue() == 5) {
-                mayRecovered = mayRecovered + entry.getValue();
-            } else if (entry.getKey().getMonth().getValue() == 6) {
-                junRecovered = junRecovered + entry.getValue();
-            }
-        }
-
-        ChartData data = new ChartData();
-
         BarChartDataSet barDataSet = new BarChartDataSet();
         barDataSet.setLabel("Confirmed Cases");
         barDataSet.setBackgroundColor("rgba(255, 159, 64, 0.2)");
         barDataSet.setBorderColor("rgb(255, 159, 64)");
         barDataSet.setBorderWidth(1);
-
-        List<Number> values = new ArrayList<>();
-        values.add(marchTotal);
-        values.add(aprilTotal);
-        values.add(mayTotal);
-        values.add(junTotal);
         barDataSet.setData(values);
 
         BarChartDataSet barDataSet2 = new BarChartDataSet();
@@ -176,12 +156,6 @@ public class covidController {
         barDataSet2.setBackgroundColor("rgba(97, 255, 163, 0.2)");
         barDataSet2.setBorderColor("rgb(97, 255, 163)");
         barDataSet2.setBorderWidth(1);
-
-        List<Number> values2 = new ArrayList<>();
-        values2.add(marchRecovered);
-        values2.add(aprilRecovered);
-        values2.add(mayRecovered);
-        values2.add(junRecovered);
         barDataSet2.setData(values2);
 
         BarChartDataSet barDataSet3 = new BarChartDataSet();
@@ -189,26 +163,15 @@ public class covidController {
         barDataSet3.setBackgroundColor("rgba(255, 99, 132, 0.2)");
         barDataSet3.setBorderColor("rgb(255, 99, 132)");
         barDataSet3.setBorderWidth(1);
-
-        List<Number> values3 = new ArrayList<>();
-        values3.add(marchDead);
-        values3.add(aprilDead);
-        values3.add(mayDead);
-        values3.add(junDead);
         barDataSet3.setData(values3);
 
-
-        List<String> labels = new ArrayList<>();
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
-
+        ChartData data = new ChartData();
         data.addChartDataSet(barDataSet);
         data.addChartDataSet(barDataSet2);
         data.addChartDataSet(barDataSet3);
+
         data.setLabels(labels);
-        mountlyCases.setData(data);
+        monthlyCases.setData(data);
 
         //Options
         BarChartOptions options = new BarChartOptions();
@@ -225,9 +188,8 @@ public class covidController {
         title.setText("Monthly Cases");
         options.setTitle(title);
 
-        mountlyCases.setOptions(options);
+        monthlyCases.setOptions(options);
     }
-
 
     public void totalCasesLineModel() {
         totalCasesLineChart = new LineChartModel();
@@ -245,16 +207,11 @@ public class covidController {
                 labels.add(outputFormatter.format(date1));
             }
         }
-        //Options
-        LineChartOptions options = new LineChartOptions();
-        Title title = new Title();
-        title.setDisplay(true);
-        title.setText("Total Confirmed Cases");
-        options.setLegend(getLegend());
-        options.setTitle(title);
-        totalCasesLineChart.setOptions(options);
-        totalCasesLineChart.setData(confirmedCasesData);
-        totalCasesLineChart.setData(getChartData(values, labels, "Total Confirmed Cases", "#ffc107"));
+        totalCasesLineChart.setOptions(getOptions("Total Confirmed Cases"));
+        ChartData data = new ChartData();
+        data.setLabels(labels);
+        data.addChartDataSet(getLineChartDataSet(values, "Total Confirmed Cases", "#ffc107"));
+        totalCasesLineChart.setData(data);
     }
 
     public void recoveredCasesLineModel() {
@@ -269,16 +226,11 @@ public class covidController {
                 labels.add(outputFormatter.format(date1));
             }
         }
-
-        //Options
-        LineChartOptions options = new LineChartOptions();
-        Title title = new Title();
-        title.setDisplay(true);
-        title.setText("Total Recovered Cases");
-        options.setTitle(title);
-        options.setLegend(getLegend());
-        recoveredCasesLineChart.setOptions(options);
-        recoveredCasesLineChart.setData(getChartData(values, labels, "Recovered Cases", "#28a745"));
+        recoveredCasesLineChart.setOptions(getOptions("Total Recovered Cases"));
+        ChartData data = new ChartData();
+        data.setLabels(labels);
+        data.addChartDataSet(getLineChartDataSet(values, "Recovered Cases", "#28a745"));
+        recoveredCasesLineChart.setData(data);
     }
 
     public void deathsCasesLineModel() {
@@ -293,48 +245,33 @@ public class covidController {
                 labels.add(outputFormatter.format(date));
             }
         }
-
-        LineChartOptions options = new LineChartOptions();
-        Title title = new Title();
-        title.setDisplay(true);
-        title.setText("Total Deaths");
-        options.setTitle(title);
-        options.setLegend(getLegend());
-        deathsCasesLineChart.setOptions(options);
-        deathsCasesLineChart.setData(getChartData(values, labels, "Deaths Cases", "#dc3545"));
+        deathsCasesLineChart.setOptions(getOptions("Total Deaths"));
+        ChartData data = new ChartData();
+        data.setLabels(labels);
+        data.addChartDataSet(getLineChartDataSet(values, "Deaths Cases", "#dc3545"));
+        deathsCasesLineChart.setData(data);
     }
 
     public void activeCasesLineModel() {
         cartesianLinerModel = new LineChartModel();
-        ChartData data = new ChartData();
 
-        LineChartDataSet dataSet = new LineChartDataSet();
         List<Number> values = new ArrayList<>();
         List<String> labels = new ArrayList<>();
         for (History dailyCase : coronaVirus.getStats().getHistory()) {
             if (dailyCase.getConfirmed() != 0) {
                 LocalDate date1 = LocalDate.parse(dailyCase.getDate() + ".000Z", inputFormatter);
                 labels.add(outputFormatter.format(date1));
-                values.add(dailyCase.getConfirmed()-dailyCase.getRecovered()-dailyCase.getDeaths());
+                values.add(dailyCase.getConfirmed() - dailyCase.getRecovered() - dailyCase.getDeaths());
 
             }
         }
-        dataSet.setData(values);
-        dataSet.setLabel("Active Cases");
-        dataSet.setYaxisID("left-y-axis");
-        dataSet.setBackgroundColor("rgba(138, 74, 243, 0)");
-        dataSet.setBorderColor("rgb(138, 74, 243)");
-        dataSet.setPointStyle("circle");
-        dataSet.setPointBorderWidth(0.1);
-
-
-
-        data.addChartDataSet(dataSet);
-
+        cartesianLinerModel.setOptions(getOptions("Active Cases"));
+        ChartData data = new ChartData();
         data.setLabels(labels);
+        data.addChartDataSet(getLineChartDataSet(values, "Active Cases", "#8a4af3"));
         cartesianLinerModel.setData(data);
 
-        //Options
+       /* //Options
         LineChartOptions options = new LineChartOptions();
         CartesianScales cScales = new CartesianScales();
         CartesianLinearAxes linearAxes = new CartesianLinearAxes();
@@ -349,15 +286,12 @@ public class covidController {
         title.setText("Active Cases");
         options.setTitle(title);
         options.setLegend(getLegend());
-        cartesianLinerModel.setOptions(options);
+        cartesianLinerModel.setOptions(options);*/
     }
 
     public void deathsRecoveredLineModel() {
         recoveredDeathsLinerModel = new LineChartModel();
         ChartData data = new ChartData();
-
-        LineChartDataSet dataSet = new LineChartDataSet();
-        LineChartDataSet dataSet2 = new LineChartDataSet();
 
         List<String> labels = new ArrayList<>();
         List<Number> values = new ArrayList<>(dailyDeaths.values());
@@ -366,29 +300,13 @@ public class covidController {
         for (Map.Entry<LocalDate, Integer> entry : dailyDeaths.entrySet()) {
             labels.add(outputFormatter.format(entry.getKey()));
         }
-
-        dataSet.setData(values);
-        dataSet.setLabel("Deaths Cases");
-        dataSet.setYaxisID("right-y-axis");
-        dataSet.setBackgroundColor("rgba(255, 159, 64, 0)");
-        dataSet.setBorderColor("rgb(255, 159, 64)");
-        dataSet.setPointStyle("circle");
-        dataSet.setPointBorderWidth(0.1);
-
-        dataSet2.setData(values2);
-        dataSet2.setLabel("Recovered Cases");
-        dataSet2.setYaxisID("left-y-axis");
-        dataSet2.setBackgroundColor("rgba(97, 255, 163, 0)");
-        dataSet2.setBorderColor("rgb(97, 255, 163)");
-        dataSet2.setPointStyle("circle");
-        dataSet2.setPointBorderWidth(0.1);
-
-        data.addChartDataSet(dataSet);
-        data.addChartDataSet(dataSet2);
+        recoveredDeathsLinerModel.setOptions(getOptions("Daily New Recovered-Deaths"));
 
         data.setLabels(labels);
+        data.addChartDataSet(getLineChartDataSet(values, "Deaths Cases", "#dc3545"));
+        data.addChartDataSet(getLineChartDataSet(values2, "Recovered Cases", "#28a745"));
         recoveredDeathsLinerModel.setData(data);
-
+/*
         //Options
         LineChartOptions options = new LineChartOptions();
         CartesianScales cScales = new CartesianScales();
@@ -409,6 +327,8 @@ public class covidController {
         options.setTitle(title);
         options.setLegend(getLegend());
         recoveredDeathsLinerModel.setOptions(options);
+*/
+
     }
 
     public void createRecoveredCasesBarModel() {
@@ -453,7 +373,13 @@ public class covidController {
         title.setDisplay(true);
         title.setText("Daily New Recovered");
         options.setTitle(title);
-        options.setLegend(getLegend());
+        Legend legend = new Legend();
+        legend.setDisplay(false);
+        legend.setPosition("top");
+        LegendLabel legendLabels = new LegendLabel();
+        legendLabels.setFontSize(10);
+        legend.setLabels(legendLabels);
+        options.setLegend(legend);
         dailyRecoveredChart.setOptions(options);
     }
 
@@ -499,7 +425,13 @@ public class covidController {
         title.setDisplay(true);
         title.setText("Daily New Cases");
         options.setTitle(title);
-        options.setLegend(getLegend());
+        Legend legend = new Legend();
+        legend.setDisplay(false);
+        legend.setPosition("top");
+        LegendLabel legendLabels = new LegendLabel();
+        legendLabels.setFontSize(10);
+        legend.setLabels(legendLabels);
+        options.setLegend(legend);
         dailyNewCasesChart.setOptions(options);
     }
 
@@ -545,25 +477,114 @@ public class covidController {
         title.setDisplay(true);
         title.setText("Daily New Deaths");
         options.setTitle(title);
-        options.setLegend(getLegend());
-        dailyDeathsChart.setOptions(options);
-    }
 
-    public Legend getLegend() {
         Legend legend = new Legend();
         legend.setDisplay(false);
         legend.setPosition("top");
         LegendLabel legendLabels = new LegendLabel();
         legendLabels.setFontSize(10);
         legend.setLabels(legendLabels);
-        return legend;
+        options.setLegend(legend);
+        dailyDeathsChart.setOptions(options);
+
     }
 
+    public void mortalityRateLineModel() {
+        mortalityRateChart = new LineChartModel();
+        List<Number> values = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        for (Map.Entry<LocalDate, Integer> entry : dailyDeaths.entrySet()) {
+            if (entry.getValue() > 1) {
+                Float rate = entry.getValue().floatValue() / dailyConfirmed.get(entry.getKey()).floatValue();
+                values.add(Float.valueOf(String.format("%.4f", rate)));
+                labels.add(outputFormatter.format(entry.getKey()));
+            }
+        }
+        mortalityRateChart.setOptions(getOptions("Daily Mortality Rate"));
+        ChartData data = new ChartData();
+        data.setLabels(labels);
+        data.addChartDataSet(getLineChartDataSet(values, "Mortality Rate", "#2196f3"));
+        mortalityRateChart.setData(data);
+    }
+
+    public void recoveredRateLineModel() {
+        recoveredRateChart = new LineChartModel();
+        List<Number> values = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        for (Map.Entry<LocalDate, Integer> entry : dailyRecovered.entrySet()) {
+            if (entry.getValue() > 1) {
+                Float rate = entry.getValue().floatValue() / dailyConfirmed.get(entry.getKey()).floatValue();
+                values.add(Float.valueOf(String.format("%.4f", rate)));
+                labels.add(outputFormatter.format(entry.getKey()));
+            }
+        }
+        recoveredRateChart.setOptions(getOptions("Daily Recovery Rate"));
+        ChartData data = new ChartData();
+        data.setLabels(labels);
+        data.addChartDataSet(getLineChartDataSet(values, "Recovery Rate", "#5bff22"));
+        recoveredRateChart.setData(data);
+    }
+
+    public void recoveryDeathRateLineModel() {
+        /*
+         * Totla Closed data =total recovered cases+total death cases
+         * Recovery rate = total recovered cases/toal closed cases*100
+         * Mortality rate = total death cases/toal closed cases*100
+         * */
+        recoveryDeathRateLinerModel = new LineChartModel();
+        ChartData data = new ChartData();
+
+        List<String> labels = new ArrayList<>();
+        List<Number> values = new ArrayList<>();
+        List<Number> values2 = new ArrayList<>();
+
+        for (History dailyCase : coronaVirus.getStats().getHistory()) {
+            if (dailyCase.getConfirmed() != 0 && (dailyCase.getRecovered() != 0 || dailyCase.getDeaths() != 0)) {
+
+                int totalClosed = dailyCase.getRecovered() + dailyCase.getDeaths();
+
+                Float recoveryRate = (float) dailyCase.getRecovered() / (float) totalClosed * (float) 100;
+                values.add(Float.valueOf(String.format("%.2f", recoveryRate)));
+
+                Float mortalityRate = (float) dailyCase.getDeaths() / (float) totalClosed * (float) 100;
+                values2.add(Float.valueOf(String.format("%.2f", mortalityRate)));
 
 
-    public ChartData getChartData(List<Number> values, List<String> labels, String label, String color) {
-        ChartData chartData = new ChartData();
+                LocalDate date = LocalDate.parse(dailyCase.getDate() + ".000Z", inputFormatter);
+                labels.add(outputFormatter.format(date));
+            }
+        }
 
+        data.setLabels(labels);
+        data.addChartDataSet(getLineChartDataSet(values, "Recovery Rate", "#5bff22"));
+        data.addChartDataSet(getLineChartDataSet(values2, "Death Rate", "#ff9800"));
+        recoveryDeathRateLinerModel.setData(data);
+
+
+        recoveryDeathRateLinerModel.setOptions(getOptions("Outcome of total closed cases (recovery rate vs death rate)"));
+    }
+
+    private LineChartOptions getOptions(String titleText) {
+        //Options
+        LineChartOptions options = new LineChartOptions();
+        Legend legend = new Legend();
+        legend.setDisplay(false);
+        legend.setPosition("top");
+        LegendLabel legendLabels = new LegendLabel();
+        legendLabels.setFontSize(10);
+        legend.setLabels(legendLabels);
+
+        Title title = new Title();
+        title.setDisplay(true);
+        title.setText(titleText);
+        options.setTitle(title);
+        options.setLegend(legend);
+        return options;
+    }
+
+    public LineChartDataSet getLineChartDataSet(List<Number> values, String label, String color) {
         LineChartDataSet lineChartDataSet = new LineChartDataSet();
         lineChartDataSet.setData(values);
         lineChartDataSet.setLabel(label);
@@ -571,9 +592,6 @@ public class covidController {
         lineChartDataSet.setBackgroundColor("rgba(255, 255, 255, 0)");
         lineChartDataSet.setPointStyle("circle");
         lineChartDataSet.setPointBorderWidth(0.1);
-        chartData.addChartDataSet(lineChartDataSet);
-        chartData.setLabels(labels);
-        return chartData;
+        return lineChartDataSet;
     }
-
 }
