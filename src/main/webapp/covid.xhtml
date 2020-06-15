@@ -23,26 +23,36 @@
             <div class="card w-100">
                 <div class="card-body align-self-center text-sm-center">
                     <div id="regions_div" class="mb-3"></div>
-                    <span class="text-muted">Total Confirmed Cases: </span>
-
-                    <h:outputLabel styleClass="card-text"
-                                   value="#{covidController.coronaVirus.stats.totalConfirmedCases}"/><br/>
-
-                    <span class="text-muted">Total Recovered Cases: </span>
-                    <h:outputLabel styleClass="card-text"
-                                   value="#{covidController.coronaVirus.stats.totalRecoveredCases}"/><br/>
-
-                    <span class="text-muted">Total Deaths: </span>
-                    <h:outputLabel styleClass="card-text"
-                                   value="#{covidController.coronaVirus.stats.totalDeaths}"/><br/>
-                    <small>
-                        <span class="text-muted">Last Updated: </span>
-                        <h:outputLabel styleClass="text-muted"
-                                       value="#{covidController.coronaVirus.updatedDateTime}"/>
-                    </small>
 
 
                 </div>
+                <div id="statistic" class="row text-white align-middle justify-content-center font-weight-bold">
+                    <div class="col-sm-2 rounded bg-warning m-2 pl-0 pr-0">
+                        <span class="align-middle">Total Confirmed Cases</span>
+                        <hr class="m-0"/>
+                        <h:outputLabel styleClass="align-middle"
+                                       value="#{covidController.coronaVirus.stats.totalConfirmedCases}"/>
+                    </div>
+                    <div class="col-sm-2 rounded bg-success m-2 pl-0 pr-0">
+                        <span>Total Recovered Cases</span>
+                        <hr class="m-0"/>
+                        <h:outputLabel
+                                value="#{covidController.coronaVirus.stats.totalRecoveredCases}"/>
+                    </div>
+                    <div class="col-sm-2 rounded bg-danger m-2 pl-0 pr-0">
+                        <span>Total Deaths</span>
+                        <hr class="m-0"/>
+                        <h:outputLabel value="#{covidController.coronaVirus.stats.totalDeaths}"/>
+                    </div>
+                </div>
+
+
+                <small>
+                    <span class="text-muted">Last Updated: </span>
+                    <h:outputLabel styleClass="text-muted"
+                                   value="#{covidController.coronaVirus.updatedDateTime}"/>
+                </small>
+
             </div>
             <div class="row">
                 <div class="col-md-4">

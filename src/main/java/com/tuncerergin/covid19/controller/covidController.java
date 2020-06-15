@@ -306,29 +306,6 @@ public class covidController {
         data.addChartDataSet(getLineChartDataSet(values, "Deaths Cases", "#dc3545"));
         data.addChartDataSet(getLineChartDataSet(values2, "Recovered Cases", "#28a745"));
         recoveredDeathsLinerModel.setData(data);
-/*
-        //Options
-        LineChartOptions options = new LineChartOptions();
-        CartesianScales cScales = new CartesianScales();
-        CartesianLinearAxes linearAxes = new CartesianLinearAxes();
-        linearAxes.setId("left-y-axis");
-        linearAxes.setPosition("left");
-        CartesianLinearAxes linearAxes2 = new CartesianLinearAxes();
-        linearAxes2.setId("right-y-axis");
-        linearAxes2.setPosition("right");
-
-        cScales.addYAxesData(linearAxes);
-        cScales.addYAxesData(linearAxes2);
-        options.setScales(cScales);
-
-        Title title = new Title();
-        title.setDisplay(true);
-        title.setText("Daily New Recovered-Deaths");
-        options.setTitle(title);
-        options.setLegend(getLegend());
-        recoveredDeathsLinerModel.setOptions(options);
-*/
-
     }
 
     public void createRecoveredCasesBarModel() {
