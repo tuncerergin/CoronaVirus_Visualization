@@ -1,5 +1,4 @@
 # Project exclude paths
 /target/
 /src/main/resources/application.properties
-.idea/dbnavigator.xml
-.idea/vcs.xml
+/.idea
