@@ -22,7 +22,7 @@
         <div class="col text-md-center">
             <div class="card w-100">
                 <div class="card-body align-self-center text-sm-center">
-                    <div id="regions_div" class="mb-3"></div>
+                    <div id="regions_div" class="mb-3 rounded border"></div>
 
 
                 </div>
@@ -54,28 +54,28 @@
                 </small>
 
             </div>
-            <div class="row">
-                <div class="col-md-4">
+            <div class="row bg-light">
+                <div class="col-lg-4 p-0">
 
-                    <p:lineChart model="#{covidController.totalCasesLineChart}" styleClass="m-2"/>
-                    <p:lineChart model="#{covidController.cartesianLinerModel}" styleClass="m-2"/>
-                    <p:barChart model="#{covidController.dailyNewCasesChart}" styleClass="m-2"/>
-                    <p:lineChart model="#{covidController.mortalityRateChart}" styleClass="m-2"/>
+                    <p:lineChart model="#{covidController.totalCasesLineChart}" styleClass="m-2 bg-white rounded border p-3"/>
+                    <p:lineChart model="#{covidController.cartesianLinerModel}" styleClass="m-2 bg-white rounded border p-3"/>
+                    <p:barChart model="#{covidController.dailyNewCasesChart}" styleClass="m-2 bg-white rounded border p-3"/>
+                    <p:lineChart model="#{covidController.mortalityRateChart}" styleClass="m-2 bg-white rounded border p-3"/>
                 </div>
-                <div class="col-md-4">
+                <div class="col-lg-4 p-0">
                     <p:lineChart model="#{covidController.recoveredCasesLineChart}"
-                                 styleClass="m-2"/>
-                    <p:barChart model="#{covidController.monthlyCases}" styleClass="m-2"/>
-                    <p:barChart model="#{covidController.dailyRecoveredChart}" styleClass="m-2"/>
-                    <p:lineChart model="#{covidController.recoveredRateChart}" styleClass="m-2"/>
+                                 styleClass="m-2 bg-white rounded border p-3"/>
+                    <p:barChart model="#{covidController.monthlyCases}" styleClass="m-2 bg-white rounded border p-3"/>
+                    <p:barChart model="#{covidController.dailyRecoveredChart}" styleClass="m-2 bg-white rounded border p-3"/>
+                    <p:lineChart model="#{covidController.recoveredRateChart}" styleClass="m-2 bg-white rounded border p-3"/>
                 </div>
-                <div class="col-md-4">
-                    <p:lineChart model="#{covidController.deathsCasesLineChart}" styleClass="m-2"/>
+                <div class="col-lg-4 p-0">
+                    <p:lineChart model="#{covidController.deathsCasesLineChart}" styleClass="m-2 bg-white rounded border p-3"/>
                     <p:lineChart model="#{covidController.recoveredDeathsLinerModel}"
-                                 styleClass="m-2"/>
-                    <p:barChart model="#{covidController.dailyDeathsChart}" styleClass="m-2"/>
+                                 styleClass="m-2 bg-white rounded border p-3"/>
+                    <p:barChart model="#{covidController.dailyDeathsChart}" styleClass="m-2 bg-white rounded border p-3"/>
                     <p:lineChart model="#{covidController.recoveryDeathRateLinerModel}"
-                                 styleClass="m-2"/>
+                                 styleClass="m-2 bg-white rounded border p-3"/>
                 </div>
 
             </div>
