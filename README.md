@@ -13,5 +13,5 @@ _I deployed my app at `HerOku`_
 
 https://coronavirusvisualization.herokuapp.com
 
-![SS form HerOku app](https://github.com/tuncerergin/CoronavirusVisualization/blob/master/CovidSS.jpg?raw=true)
+![SS form HerOku app](https://github.com/tuncerergin/CoronavirusVisualization/blob/master/CovidSS.png?raw=true)
 
