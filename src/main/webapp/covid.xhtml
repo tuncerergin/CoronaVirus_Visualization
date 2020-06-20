@@ -6,120 +6,317 @@
 
 <h:head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>CoronaVirus</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/all.css"/>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script type="text/javascript"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-    <script type="javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script type="javascript" src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script type="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://use.fontawesome.com/releases/v5.13.1/js/all.js"></script>
 
 </h:head>
-<body>
+<body id="page-top">
+<div id="wrapper">
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <div class="container-fluid">
+                <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                    <div class="row justify-content-center align-items-center justify-content-center w-100">
+                        <div class="col align-self-center m-auto ">
+                            <h3 class="text-center text-dark mb-0 text-uppercase"><h:outputLabel
+                                    value="#{covidController.coronaVirus.location.countryOrRegion}"/></h3>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col text-md-center">
-            <div class="card w-100">
-                <div class="card-body align-self-center text-sm-center">
-                    <div id="regions_div" class="mb-3 rounded border"></div>
-
-
-                </div>
-                <div id="statistic" class="row text-white align-middle justify-content-center font-weight-bold">
-                    <div class="col-sm-2 rounded bg-warning m-2 pl-0 pr-0">
-                        <span class="align-middle">Total Confirmed Cases</span>
-                        <hr class="m-0"/>
-                        <h:outputLabel styleClass="align-middle"
-                                       value="#{covidController.coronaVirus.stats.totalConfirmedCases}"/>
-                    </div>
-                    <div class="col-sm-2 rounded bg-success m-2 pl-0 pr-0">
-                        <span>Total Recovered Cases</span>
-                        <hr class="m-0"/>
-                        <h:outputLabel
-                                value="#{covidController.coronaVirus.stats.totalRecoveredCases}"/>
-                    </div>
-                    <div class="col-sm-2 rounded bg-danger m-2 pl-0 pr-0">
-                        <span>Total Deaths</span>
-                        <hr class="m-0"/>
-                        <h:outputLabel value="#{covidController.coronaVirus.stats.totalDeaths}"/>
+                            <div id="regions_div" class="mb-3 rounded border w-50 m-auto card shadow "></div>
+                        </div>
                     </div>
                 </div>
 
 
-                <small>
-                    <span class="text-muted">Last Updated: </span>
-                    <h:outputLabel styleClass="text-muted"
-                                   value="#{covidController.coronaVirus.updatedDateTime}"/>
-                </small>
-
-            </div>
-            <div class="row bg-light">
-                <div class="col-lg-4 p-0">
-
-                    <p:lineChart model="#{covidController.totalCasesLineChart}" styleClass="m-2 bg-white rounded border p-3"/>
-                    <p:lineChart model="#{covidController.cartesianLinerModel}" styleClass="m-2 bg-white rounded border p-3"/>
-                    <p:barChart model="#{covidController.dailyNewCasesChart}" styleClass="m-2 bg-white rounded border p-3"/>
-                    <p:lineChart model="#{covidController.mortalityRateChart}" styleClass="m-2 bg-white rounded border p-3"/>
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow border py-2" style="border-left: .25rem solid #f6c23e!important;">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col mr-2">
+                                        <div class="text-uppercase  text-warning font-weight-bold text-xs mb-1">
+                                            <span>Total Confirmed Cases</span></div>
+                                        <div class="text-dark font-weight-bold h5 mb-0"><h:outputLabel
+                                                styleClass="align-middle"
+                                                value="#{covidController.coronaVirus.stats.totalConfirmedCases}"/></div>
+                                    </div>
+                                    <div class="col-auto"><i class="fas fa-viruses fa-2x text-warning"/></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow py-2" style="border-left: .25rem solid #1cc88a!important;">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col mr-2">
+                                        <div class="text-uppercase text-success font-weight-bold text-xs mb-1">
+                                            <span>Total Recovered Cases</span></div>
+                                        <div class="text-dark font-weight-bold h5 mb-0"><h:outputLabel
+                                                value="#{covidController.coronaVirus.stats.totalRecoveredCases}"/></div>
+                                    </div>
+                                    <div class="col-auto"><i class="fas fa-viruses fa-2x text-success"/></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow py-2" style="border-left: .25rem solid #e74a3b!important;">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col mr-2">
+                                        <div class="text-uppercase text-danger font-weight-bold text-xs mb-1">
+                                            <span>Total Deaths</span></div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="text-dark font-weight-bold h5 mb-0 mr-3"><h:outputLabel
+                                                        value="#{covidController.coronaVirus.stats.totalDeaths}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto"><i class="fas fa-viruses fa-2x text-danger"/></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-4 p-0">
-                    <p:lineChart model="#{covidController.recoveredCasesLineChart}"
-                                 styleClass="m-2 bg-white rounded border p-3"/>
-                    <p:barChart model="#{covidController.monthlyCases}" styleClass="m-2 bg-white rounded border p-3"/>
-                    <p:barChart model="#{covidController.dailyRecoveredChart}" styleClass="m-2 bg-white rounded border p-3"/>
-                    <p:lineChart model="#{covidController.recoveredRateChart}" styleClass="m-2 bg-white rounded border p-3"/>
-                </div>
-                <div class="col-lg-4 p-0">
-                    <p:lineChart model="#{covidController.deathsCasesLineChart}" styleClass="m-2 bg-white rounded border p-3"/>
-                    <p:lineChart model="#{covidController.recoveredDeathsLinerModel}"
-                                 styleClass="m-2 bg-white rounded border p-3"/>
-                    <p:barChart model="#{covidController.dailyDeathsChart}" styleClass="m-2 bg-white rounded border p-3"/>
-                    <p:lineChart model="#{covidController.recoveryDeathRateLinerModel}"
-                                 styleClass="m-2 bg-white rounded border p-3"/>
-                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h:outputLabel styleClass="font-weight-normal m-0"
+                                               value="#{covidController.totalCasesLineChart.options.title.text}"/>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <p:lineChart model="#{covidController.totalCasesLineChart}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h:outputLabel styleClass="font-weight-normal m-0"
+                                               value="#{covidController.recoveredCasesLineChart.options.title.text}"/>
 
-            </div>
-            <div class="row">
-                <div id="container" class="container">
-                    <div class="table-responsive">
-                        <table class="table table-striped text-center" id="countryList">
-                            <tr class="p-3 mb-2 bg-primary text-white text-center">
-                                <th>#</th>
-                                <th>Country Name</th>
-                                <th>New Cases</th>
-                                <th>New Deaths</th>
-                                <th>New Recovered</th>
-                                <th>Total Cases</th>
-                                <th>Total Deaths</th>
-                                <th>Total Recovered</th>
-                            </tr>
-                            <c:forEach var="breakdown" items="${breakdowns}" varStatus="status">
-                                <tr>
-                                    <td><h:outputText value="${status.count}"/></td>
-                                    <td>
-                                        <a href="${pageContext.request.contextPath}/covid/?countryCode=${breakdown.location.isoCode}">
-                                            <h:outputText
-                                                    value="${breakdown.location.countryOrRegion}  ${breakdown.location.provinceOrState}"/>
-                                        </a>
-                                    </td>
-                                    <td> ${breakdown.newlyConfirmedCases} </td>
-                                    <td> ${breakdown.newDeaths} </td>
-                                    <td> ${breakdown.newlyRecoveredCases} </td>
-                                    <td> ${breakdown.totalConfirmedCases} </td>
-                                    <td> ${breakdown.totalDeaths} </td>
-                                    <td> ${breakdown.totalRecoveredCases} </td>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <p:lineChart model="#{covidController.recoveredCasesLineChart}"/>
+                                </div>
 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h:outputLabel styleClass="font-weight-normal m-0"
+                                               value="#{covidController.deathsCasesLineChart.options.title.text}"/>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <p:lineChart model="#{covidController.deathsCasesLineChart}"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h:outputLabel styleClass="font-weight-normal m-0"
+                                               value="#{covidController.cartesianLinerModel.options.title.text}"/>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <p:lineChart model="#{covidController.cartesianLinerModel}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h:outputLabel styleClass="font-weight-normal m-0"
+                                               value="#{covidController.monthlyCases.options.title.text}"/>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <p:barChart model="#{covidController.monthlyCases}"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h:outputLabel styleClass="font-weight-normal m-0"
+                                               value="#{covidController.recoveredDeathsLinerModel.options.title.text}"/>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <p:lineChart model="#{covidController.recoveredDeathsLinerModel}"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h:outputLabel styleClass="font-weight-normal m-0"
+                                               value="#{covidController.dailyNewCasesChart.options.title.text}"/>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <p:barChart model="#{covidController.dailyNewCasesChart}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h:outputLabel styleClass="font-weight-normal m-0"
+                                               value="#{covidController.dailyRecoveredChart.options.title.text}"/>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <p:barChart model="#{covidController.dailyRecoveredChart}"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h:outputLabel styleClass="font-weight-normal m-0"
+                                               value="#{covidController.dailyDeathsChart.options.title.text}"/>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <p:barChart model="#{covidController.dailyDeathsChart}"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h:outputLabel styleClass="font-weight-normal m-0"
+                                               value="#{covidController.mortalityRateChart.options.title.text}"/>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <p:lineChart model="#{covidController.mortalityRateChart}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h:outputLabel styleClass="font-weight-normal m-0"
+                                               value="#{covidController.recoveredRateChart.options.title.text}"/>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <p:lineChart model="#{covidController.recoveredRateChart}"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h:outputLabel styleClass="font-weight-normal m-0 "
+                                               value="#{covidController.recoveryDeathRateLinerModel.options.title.text}"/>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <p:lineChart model="#{covidController.recoveryDeathRateLinerModel}"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="container" class="container">
+                        <div class="table-responsive shadow">
+                            <table class="table table-striped text-center" id="countryList">
+                                <tr class="p-3 mb-2 bg-primary text-white text-center">
+                                    <th>#</th>
+                                    <th>Country Name</th>
+                                    <th>New Cases</th>
+                                    <th>New Deaths</th>
+                                    <th>New Recovered</th>
+                                    <th>Total Cases</th>
+                                    <th>Total Deaths</th>
+                                    <th>Total Recovered</th>
                                 </tr>
-                            </c:forEach>
-                        </table>
+                                <c:forEach var="breakdown" items="${breakdowns}" varStatus="status">
+                                    <tr>
+                                        <td><h:outputText value="${status.count}"/></td>
+                                        <td>
+                                            <a href="${pageContext.request.contextPath}/covid/?countryCode=${breakdown.location.isoCode}">
+                                                <h:outputText
+                                                        value="${breakdown.location.countryOrRegion}  ${breakdown.location.provinceOrState}"/>
+                                            </a>
+                                        </td>
+                                        <td> ${breakdown.newlyConfirmedCases} </td>
+                                        <td> ${breakdown.newDeaths} </td>
+                                        <td> ${breakdown.newlyRecoveredCases} </td>
+                                        <td> ${breakdown.totalConfirmedCases} </td>
+                                        <td> ${breakdown.totalDeaths} </td>
+                                        <td> ${breakdown.totalRecoveredCases} </td>
+
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="bg-light sticky-footer mt-3 border-top">
+            <div class="container p-3">
+                <div class="text-center copyright">
+                    <i class="fab fa-github fa-2x text-dark"/>
+                    <a href="https://github.com/tuncerergin">Tuncer ERGİN</a>
 
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 <h:inputHidden type="hidden" id="countryCode" value="#{covidController.coronaVirus.location.isoCode}"/>
 <h:inputHidden type="hidden" id="mapsApiKey" value="#{covidController.mapsApiKey}"/>
 <h:inputHidden type="hidden" id="totalConfirmedCases"
@@ -151,6 +348,7 @@
             colorAxis: {colors: ['red']}
         };
         var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+        console.log(chart);
         chart.draw(data, options);
     }
 </script>

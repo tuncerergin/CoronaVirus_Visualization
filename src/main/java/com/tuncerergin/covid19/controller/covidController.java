@@ -544,7 +544,6 @@ public class covidController {
     }
 
     private LineChartOptions getOptions(String titleText) {
-        //Options
         LineChartOptions options = new LineChartOptions();
         Legend legend = new Legend();
         legend.setDisplay(false);
@@ -554,7 +553,7 @@ public class covidController {
         legend.setLabels(legendLabels);
 
         Title title = new Title();
-        title.setDisplay(true);
+        title.setDisplay(false);
         title.setText(titleText);
         options.setTitle(title);
         options.setLegend(legend);
