@@ -1,4 +1,6 @@
 # Project exclude paths
 /target/
-/src/main/resources/application.properties
 /.idea
+.settings/
+/src/main/resources/application.properties
+.env
