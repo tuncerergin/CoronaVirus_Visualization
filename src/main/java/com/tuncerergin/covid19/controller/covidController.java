@@ -193,10 +193,7 @@ public class covidController {
 
     public void totalCasesLineModel() {
         totalCasesLineChart = new LineChartModel();
-        ChartData confirmedCasesData = new ChartData();
-
-        LineChartDataSet confirmedCasesDataSet = new LineChartDataSet();
-        List<Number> values = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
         for (History dailyCase : coronaVirus.getStats().getHistory()) {
@@ -216,7 +213,7 @@ public class covidController {
 
     public void recoveredCasesLineModel() {
         recoveredCasesLineChart = new LineChartModel();
-        List<Number> values = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
         for (History dailyCase : coronaVirus.getStats().getHistory()) {
@@ -235,7 +232,7 @@ public class covidController {
 
     public void deathsCasesLineModel() {
         deathsCasesLineChart = new LineChartModel();
-        List<Number> values = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
         for (History dailyCase : coronaVirus.getStats().getHistory()) {
@@ -255,7 +252,7 @@ public class covidController {
     public void activeCasesLineModel() {
         cartesianLinerModel = new LineChartModel();
 
-        List<Number> values = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
         List<String> labels = new ArrayList<>();
         for (History dailyCase : coronaVirus.getStats().getHistory()) {
             if (dailyCase.getConfirmed() != 0) {
@@ -294,8 +291,8 @@ public class covidController {
         ChartData data = new ChartData();
 
         List<String> labels = new ArrayList<>();
-        List<Number> values = new ArrayList<>(dailyDeaths.values());
-        List<Number> values2 = new ArrayList<>(dailyRecovered.values());
+        List<Object> values = new ArrayList<>(dailyDeaths.values());
+        List<Object> values2 = new ArrayList<>(dailyRecovered.values());
 
         for (Map.Entry<LocalDate, Integer> entry : dailyDeaths.entrySet()) {
             labels.add(outputFormatter.format(entry.getKey()));
@@ -318,14 +315,12 @@ public class covidController {
         List<Number> values = new ArrayList<>(dailyRecovered.values());
         barDataSet.setData(values);
         List<String> bgColor = new ArrayList<>();
-        for (Number i : values) {
-            bgColor.add("rgba(75, 192, 192, 0.2)");
-        }
-        barDataSet.setBackgroundColor(bgColor);
         List<String> borderColor = new ArrayList<>();
         for (Number i : values) {
+            bgColor.add("rgba(75, 192, 192, 0.2)");
             borderColor.add("rgb(75, 192, 192)");
         }
+        barDataSet.setBackgroundColor(bgColor);
         barDataSet.setBorderColor(borderColor);
         barDataSet.setBorderWidth(1);
         data.addChartDataSet(barDataSet);
@@ -370,14 +365,12 @@ public class covidController {
         List<Number> values = new ArrayList<>(dailyConfirmed.values());
         barDataSet.setData(values);
         List<String> bgColor = new ArrayList<>();
-        for (Number i : values) {
-            bgColor.add("rgba(255, 205, 86, 0.2)");
-        }
-        barDataSet.setBackgroundColor(bgColor);
         List<String> borderColor = new ArrayList<>();
         for (Number i : values) {
+            bgColor.add("rgba(255, 205, 86, 0.2)");
             borderColor.add("rgb(255, 205, 86)");
         }
+        barDataSet.setBackgroundColor(bgColor);
         barDataSet.setBorderColor(borderColor);
         barDataSet.setBorderWidth(1);
         data.addChartDataSet(barDataSet);
@@ -422,14 +415,12 @@ public class covidController {
         List<Number> values = new ArrayList<>(dailyDeaths.values());
         barDataSet.setData(values);
         List<String> bgColor = new ArrayList<>();
-        for (Number i : values) {
-            bgColor.add("rgba(255, 99, 132, 0.2)");
-        }
-        barDataSet.setBackgroundColor(bgColor);
         List<String> borderColor = new ArrayList<>();
         for (Number i : values) {
+            bgColor.add("rgba(255, 99, 132, 0.2)");
             borderColor.add("rgb(255, 99, 132)");
         }
+        barDataSet.setBackgroundColor(bgColor);
         barDataSet.setBorderColor(borderColor);
         barDataSet.setBorderWidth(1);
         data.addChartDataSet(barDataSet);
@@ -468,7 +459,7 @@ public class covidController {
 
     public void mortalityRateLineModel() {
         mortalityRateChart = new LineChartModel();
-        List<Number> values = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
         for (Map.Entry<LocalDate, Integer> entry : dailyDeaths.entrySet()) {
@@ -487,7 +478,7 @@ public class covidController {
 
     public void recoveredRateLineModel() {
         recoveredRateChart = new LineChartModel();
-        List<Number> values = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
         for (Map.Entry<LocalDate, Integer> entry : dailyRecovered.entrySet()) {
@@ -514,8 +505,8 @@ public class covidController {
         ChartData data = new ChartData();
 
         List<String> labels = new ArrayList<>();
-        List<Number> values = new ArrayList<>();
-        List<Number> values2 = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        List<Object> values2 = new ArrayList<>();
 
         for (History dailyCase : coronaVirus.getStats().getHistory()) {
             if (dailyCase.getConfirmed() != 0 && (dailyCase.getRecovered() != 0 || dailyCase.getDeaths() != 0)) {
@@ -560,7 +551,7 @@ public class covidController {
         return options;
     }
 
-    public LineChartDataSet getLineChartDataSet(List<Number> values, String label, String color) {
+    public LineChartDataSet getLineChartDataSet(List<Object> values, String label, String color) {
         LineChartDataSet lineChartDataSet = new LineChartDataSet();
         lineChartDataSet.setData(values);
         lineChartDataSet.setLabel(label);
