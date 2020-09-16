@@ -465,7 +465,7 @@ public class covidController {
         for (Map.Entry<LocalDate, Integer> entry : dailyDeaths.entrySet()) {
             if (entry.getValue() > 1) {
                 Float rate = entry.getValue().floatValue() / dailyConfirmed.get(entry.getKey()).floatValue();
-                values.add(Float.valueOf(String.format("%.4f", rate)));
+                values.add(Float.valueOf(String.format(java.util.Locale.US, "%.4f", rate)));
                 labels.add(outputFormatter.format(entry.getKey()));
             }
         }
@@ -484,7 +484,7 @@ public class covidController {
         for (Map.Entry<LocalDate, Integer> entry : dailyRecovered.entrySet()) {
             if (entry.getValue() > 1) {
                 Float rate = entry.getValue().floatValue() / dailyConfirmed.get(entry.getKey()).floatValue();
-                values.add(Float.valueOf(String.format("%.4f", rate)));
+                values.add(Float.valueOf(String.format(java.util.Locale.US, "%.4f", rate)));
                 labels.add(outputFormatter.format(entry.getKey()));
             }
         }
@@ -514,10 +514,10 @@ public class covidController {
                 int totalClosed = dailyCase.getRecovered() + dailyCase.getDeaths();
 
                 Float recoveryRate = (float) dailyCase.getRecovered() / (float) totalClosed * (float) 100;
-                values.add(Float.valueOf(String.format("%.2f", recoveryRate)));
+                values.add(Float.valueOf(String.format(java.util.Locale.US, "%.2f", recoveryRate)));
 
                 Float mortalityRate = (float) dailyCase.getDeaths() / (float) totalClosed * (float) 100;
-                values2.add(Float.valueOf(String.format("%.2f", mortalityRate)));
+                values2.add(Float.valueOf(String.format(java.util.Locale.US, "%.2f", mortalityRate)));
 
 
                 LocalDate date = LocalDate.parse(dailyCase.getDate() + ".000Z", inputFormatter);

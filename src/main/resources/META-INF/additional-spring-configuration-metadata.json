@@ -1,13 +1,23 @@
 {
   "properties": [
     {
-      "name": "restApi.subscriptionKey",
+      "name": "restApi.key",
       "type": "java.lang.String",
-      "description": "get your restApi.subscriptionKey from -> https://developer.smartable.ai/"
+      "description": "get your restApi.key from -> coronavirus-smartable.p.rapidapi.com."
     },
     {
       "name": "google.mapsApiKey",
       "type": "java.lang.String",
-      "description": "get your google.mapsApiKey from google"
+      "description": "get your google.mapsApiKey from google."
+    },
+    {
+      "name": "restApi.host",
+      "type": "java.lang.String",
+      "description": "details -> coronavirus-smartable.p.rapidapi.com."
+    },
+    {
+      "name": "restApi.url",
+      "type": "java.lang.String",
+      "description": "details -> coronavirus-smartable.p.rapidapi.com."
     }
   ] }

@@ -18,26 +18,31 @@ public class RestServiceImpl implements RestService {
     private final String url;
     HttpHeaders responseHeaders;
     HttpEntity request;
-    private final String subscriptionKey;
+    private final String key;
+    private final String host;
 
     @Autowired
     public RestServiceImpl(
             RestTemplate theRestTemplate,
-            @Value("https://api.smartable.ai/coronavirus/stats/") String theUrl, @Value("${restApi.subscriptionKey}") String subscriptionKey) {
+            @Value("${restApi.url}") String theUrl,
+            @Value("${restApi.key}") String key,
+            @Value("${restApi.host}") String host) {
         restTemplate = theRestTemplate;
-        url = theUrl;
-        this.subscriptionKey = subscriptionKey;
+        this.url = theUrl;
+        this.key = key;
+        this.host = host;
     }
 
     @Override
     public CoronaVirus getData(String countryCode) {
         responseHeaders = new HttpHeaders();
-        responseHeaders.set("Subscription-Key",
-                subscriptionKey);
+        responseHeaders.set("x-rapidapi-host", host);
+        responseHeaders.set("x-rapidapi-key", key);
+
         request = new HttpEntity(responseHeaders);
 
         ResponseEntity<CoronaVirus> responseEntity =
-                restTemplate.exchange(url + countryCode,
+                restTemplate.exchange(url + countryCode + "/",
                         HttpMethod.GET, request,
                         new ParameterizedTypeReference<CoronaVirus>() {
                         });
