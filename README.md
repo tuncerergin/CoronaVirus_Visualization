@@ -9,6 +9,7 @@
 _I deployed my app at `HerOku`_
 
 https://coronavirusvisualization.herokuapp.com
+<br>
 https://coronavirusvisualization.herokuapp.com/turkey/data
 
 ![SS form HerOku app](https://github.com/tuncerergin/CoronavirusVisualization/blob/master/screencapture.png?raw=true)
