@@ -209,6 +209,8 @@ public class covidController {
         data.setLabels(labels);
         data.addChartDataSet(getLineChartDataSet(values, "Total Confirmed Cases", "#ffc107"));
         totalCasesLineChart.setData(data);
+
+
     }
 
     public void recoveredCasesLineModel() {

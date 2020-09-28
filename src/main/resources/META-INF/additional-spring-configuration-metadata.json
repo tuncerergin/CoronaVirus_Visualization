@@ -19,5 +19,10 @@
       "name": "restApi.url",
       "type": "java.lang.String",
       "description": "details -> coronavirus-smartable.p.rapidapi.com."
+    },
+    {
+      "name": "turkey.covid19api",
+      "type": "java.lang.String",
+      "description": "https://covid19.saglik.gov.tr ."
     }
   ] }

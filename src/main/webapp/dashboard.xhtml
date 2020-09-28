@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="tr" lang="tr">
+<head>
+    <title>Türkiye</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2 px-1 position-fixed h-100" id="sticky-sidebar">
+            <div class="row justify-content-center align-items-center align-center h-100">
+                <div class="row m-2">
+                    <div class="card shadow border py-2" style="border-left: .25rem solid #775DD0!important;">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-xs mb-1">
+                                        <span style="color:#775DD0">TARİH</span></div>
+                                    <div class="text-dark font-weight-bold mb-0">
+                                    <span class="align-middle">
+                                        ${tarih}</span></div>
+                                </div>
+                                <div class="col-auto p-0"><i style="color:#775DD0"
+                                                             class="fas fa-calendar-alt fa-2x"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="card shadow border py-2" style="border-left: .25rem solid #FEB019!important;">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-xs mb-1">
+                                        <span style="color:#FEB019">GÜNLÜK TEST</span></div>
+                                    <div class="text-dark font-weight-bold mb-0">
+                                    <span class="align-middle">
+                                        ${sonDurum.gunlukTest}</span></div>
+                                </div>
+                                <div class="col-auto p-0"><i style="color:#FEB019"
+                                                             class="fas fa-vial fa-2x"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="card shadow border py-2" style="border-left: .25rem solid #008FFB!important;">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col mr-2">
+                                    <div class=" font-weight-bold text-xs mb-1">
+                                        <span style="color:#008FFB">GÜNLÜK VAKA</span></div>
+                                    <div class="text-dark font-weight-bold mb-0">
+                                    <span class="align-middle">
+                                        ${sonDurum.gunlukVaka}</span></div>
+                                </div>
+                                <div class="col-auto p-0"><i style="color:#008FFB" class="fas fa-viruses fa-2x "/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="card shadow border py-2" style="border-left: .25rem solid #00E396!important;">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col mr-2">
+                                    <div class=" font-weight-bold text-xs mb-1">
+                                        <span style="color:#00E396">GÜNLÜK İYİLEŞEN</span></div>
+                                    <div class="text-dark font-weight-bold mb-0">
+                                    <span class="align-middle">
+                                        ${sonDurum.gunlukIyilesen}</span></div>
+                                </div>
+                                <div class="col-auto p-0"><i style="color:#00E396" class="fas fa-heartbeat fa-2x  "/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-2">
+                    <div class="card shadow border py-2" style="border-left: .25rem solid #FF4560!important;">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col mr-2">
+                                    <div class=" font-weight-bold text-xs mb-1">
+                                        <span style="color:#FF4560">GÜNLÜK VEFAT</span></div>
+                                    <div class="text-dark font-weight-bold  mb-0">
+                                    <span class="align-middle">
+                                        ${sonDurum.gunlukVefat}</span></div>
+                                </div>
+                                <div class="col-auto p-0"><i style="color:#FF4560" class="fas fa-dizzy fa-2x "/></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col offset-2" id="main">
+            <div class="navbar navbar-expand-lg navbar-light bg-light">
+                <div id="countryMap" style="width:100%; height:400px;"></div>
+            </div>
+
+            <div class="content">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow border py-2" style="border-left: .25rem solid #FEB019!important;">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col mr-2">
+                                        <div class="text-uppercase  font-weight-bold text-xs mb-1">
+                                            <span style="color:#FEB019">Toplam Test</span></div>
+                                        <div class="text-dark font-weight-bold h5 mb-0">
+                                    <span class="align-middle">
+                                        ${sonDurum.toplamTest}</span></div>
+                                    </div>
+                                    <div class="col-auto"><i style="color:#FEB019"
+                                                             class="fas fa-vial fa-2x text-warning"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow border py-2" style="border-left: .25rem solid #008FFB!important;">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col mr-2">
+                                        <div class="text-uppercase font-weight-bold text-xs mb-1">
+                                            <span style="color:#008FFB">Toplam Vaka</span></div>
+                                        <div class="text-dark font-weight-bold h5 mb-0">
+                                    <span class="align-middle">
+                                        ${sonDurum.toplamVaka}</span></div>
+                                    </div>
+                                    <div class="col-auto"><i style="color:#008FFB" class="fas fa-viruses fa-2x "/></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow border py-2" style="border-left: .25rem solid #00E396!important;">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col mr-2">
+                                        <div class="text-uppercase  font-weight-bold text-xs mb-1">
+                                            <span style="color:#00E396">Toplam İyileşen</span></div>
+                                        <div class="text-dark font-weight-bold h5 mb-0">
+                                    <span class="align-middle">
+                                        ${sonDurum.toplamIyilesen}</span></div>
+                                    </div>
+                                    <div class="col-auto"><i style="color:#00E396" class="fas fa-heartbeat fa-2x  "/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow border py-2" style="border-left: .25rem solid #FF4560!important;">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col mr-2">
+                                        <div class="text-uppercase font-weight-bold text-xs mb-1">
+                                            <span style="color:#FF4560">Toplam Vefat</span></div>
+                                        <div class="text-dark font-weight-bold h5 mb-0">
+                                    <span class="align-middle">
+                                        ${sonDurum.toplamVefat}</span></div>
+                                    </div>
+                                    <div class="col-auto"><i style="color:#FF4560" class="fas fa-dizzy fa-2x "/></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="row mt-2">
+                        <div class="col-md-4 ">
+                            <div class="border rounded shadow ">
+                                <div id="toplamVaka"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="border rounded shadow ">
+                                <div id="toplamIyilesen"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="border rounded shadow ">
+                                <div id="toplamOlum"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-4 ">
+                            <div class="border rounded shadow ">
+                                <div id="gunlukVaka"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="border rounded shadow ">
+                                <div id="gunlukIyilesen"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="border rounded shadow ">
+                                <div id="gunlukOlum"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4 ">
+                            <div class="border rounded shadow ">
+                                <div id="aktifVaka"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="border rounded shadow ">
+                                <div id="vakaSonucu"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="border rounded shadow ">
+                                <div id="testSayisi"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4 ">
+                            <div class="border rounded shadow ">
+                                <div id="toplamYogunAgirEntubeHasta"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="border rounded shadow ">
+                                <div id="hastalardaZaturreOran"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="border rounded shadow ">
+                                <div id="gunlukSonuc"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4 mb-4">
+                        <div class="col-md-12">
+                            <div class="border rounded shadow ">
+                                <div id="timeLineChart" style="height: 500px;" class="mw-100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer bg-light border rounded mt-2 p-2 text-center align-middle">
+                    Veriler <a href="https://covid19.saglik.gov.tr/"
+                               class="text-decoration-none text-dark"><strong>T.C. Sağlık Bakanlığı</strong></a>ndan alınmıştır.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://kit.fontawesome.com/aa45ddd9ff.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script type="text/javascript"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script type="text/javascript" src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script type="text/javascript" src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script type="text/javascript" src="https://cdn.amcharts.com/lib/4/plugins/timeline.js"></script>
+<script type="text/javascript" src="https://cdn.amcharts.com/lib/4/plugins/bullets.js"></script>
+<script type="text/javascript" src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+<script type="text/javascript" src="https://www.amcharts.com/lib/4/lang/tr_TR.js"></script>
+<script type="text/javascript" src="https://cdn.amcharts.com/lib/4/maps.js"></script>
+<script type="text/javascript" src="https://cdn.amcharts.com/lib/4/geodata/turkeyLow.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/drawChart.js"></script>
+<script type="text/javascript">
+    drawChart('toplamVaka', ['Toplam vaka'], '#008FFB',${toplamVaka}, '',${tarihList})
+    drawChart('toplamIyilesen', ['Toplam iyileşen'], '#00E396',${toplamIyilesen}, '',${tarihList})
+    drawChart('toplamOlum', ['Toplam vefat'], '#FF1654',${toplamOlum}, '',${tarihList})
+    drawChart('gunlukVaka', ['Günlük vaka'], '#008FFB',${gunlukVaka}, '',${tarihList})
+    drawChart('gunlukIyilesen', ['Günlük iyileşen'], '#00E396',${gunlukIyilesen}, '',${tarihList})
+    drawChart('gunlukOlum', ['Günlük vefat'], '#FF1654',${gunlukOlum}, '',${tarihList})
+    drawChart('aktifVaka', ['Aktif vaka'], '#775DD0',${aktifVaka}, '',${tarihList})
+    drawChart('gunlukSonuc', ['Günlük Aktif Vaka Artışı', 'Günlük yeni vaka - Günlük kapatılan vaka'], '#775DD0',${gunlukSonuc}, '',${tarihList})
+    drawChart('testSayisi', ['Günlük Test Sayısı'], '#F86624',${testSayisi}, '',${tarihList})
+    drawCombinedLineChart('toplamYogunAgirEntubeHasta', 'Toplam yoğun bakım', 'Toplam entübe', 'Ağır hasta sayısı', 'Top. y. bakım, entübe ve ağır hasta',
+        '#43BCCD', '#00B1F2', '#A300D6', ${toplamYogunBakim},${toplamEntube},${agirHastaSayisi}, ['29.07.2020', 'Veri akışı değiştirildi.'],${tarihList})
+
+    drawChart('hastalardaZaturreOran', ['Hastalarda zatürre oranı'], '#FF1654',${hastalardaZaturreOran}, ['28.07.2020', 'Veri akışı başlatıldı.'],${tarihList})
+    draw2LineChart('vakaSonucu', 'İyileşme oranı', 'Vefat oranı', 'Vakaların Sonucu(İyileşme yada Vefat)', 'Toplam {İyileşen,Vefat}/(Toplam İyileşen+Toplam Vefat)*100', '#00E396', '#FF1654',${iyilesmeOrani},${olmeOrani},${tarihList})
+</script>
+</body>
+</html>
