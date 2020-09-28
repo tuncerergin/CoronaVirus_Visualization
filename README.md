@@ -5,13 +5,11 @@
 [![forthebadge](https://forthebadge.com/images/badges/uses-html.svg)](https://coronavirusvisualization.herokuapp.com/) 
 [![forthebadge](https://forthebadge.com/images/badges/uses-js.svg)](https://coronavirusvisualization.herokuapp.com/) 
 [![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://coronavirusvisualization.herokuapp.com/)
-
-![Java CI with Maven](https://github.com/tuncerergin/CoronavirusVisualization/workflows/Java%20CI%20with%20Maven/badge.svg) 
-![Maven Package](https://github.com/tuncerergin/CoronavirusVisualization/workflows/Maven%20Package/badge.svg?branch=master)
  
 _I deployed my app at `HerOku`_
 
 https://coronavirusvisualization.herokuapp.com
+https://coronavirusvisualization.herokuapp.com/turkey/data
 
-![SS form HerOku app](https://github.com/tuncerergin/CoronavirusVisualization/blob/master/CovidSS.png?raw=true)
+![SS form HerOku app](https://github.com/tuncerergin/CoronavirusVisualization/blob/master/screencapture.png?raw=true)
 
