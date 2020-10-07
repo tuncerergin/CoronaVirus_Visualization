@@ -38,6 +38,13 @@ public class TurkeyDataController {
     ArrayList<String> hastalardaZaturreOran;
     ArrayList<String> agirHastaSayisi;
 
+    ArrayList<String> yatakDolulukOrani;
+    ArrayList<String> eriskinYogunBakimDolulukOrani;
+    ArrayList<String> ventilatorDolulukOrani;
+    ArrayList<String> ortalamaFilyasyonSuresi;
+    ArrayList<String> ortalamaTemasliTespitSuresi;
+    ArrayList<String> filyasyonOrani;
+    ArrayList<String> gunlukVakaSayisininGunlukTestSayisinaOrani;
 
     public TurkeyDataController(TurkeyRestService restService) {
         this.restService = restService;
@@ -67,7 +74,13 @@ public class TurkeyDataController {
         hastalardaZaturreOran = new ArrayList<>();
         agirHastaSayisi = new ArrayList<>();
 
-
+        yatakDolulukOrani = new ArrayList<>();
+        eriskinYogunBakimDolulukOrani = new ArrayList<>();
+        ventilatorDolulukOrani = new ArrayList<>();
+        ortalamaFilyasyonSuresi = new ArrayList<>();
+        ortalamaTemasliTespitSuresi = new ArrayList<>();
+        filyasyonOrani = new ArrayList<>();
+        gunlukVakaSayisininGunlukTestSayisinaOrani = new ArrayList<>();
         for (int gun = history.length - 1; gun >= 0; gun--) {
             toplamVaka.add("'" + history[gun].getToplamVaka() + "'");
             toplamIyilesen.add("'" + history[gun].getToplamIyilesen() + "'");
@@ -113,6 +126,20 @@ public class TurkeyDataController {
             agirHastaSayisi.add("'" + history[gun].getAgirHastaSayisi() + "'");
 
             hastalardaZaturreOran.add("'" + history[gun].getHastalardaZaturreOran() + "'");
+
+            yatakDolulukOrani.add("'" + history[gun].getYatakDolulukOrani() + "'");
+            eriskinYogunBakimDolulukOrani.add("'" + history[gun].getEriskinYogunBakimDolulukOrani() + "'");
+            ventilatorDolulukOrani.add("'" + history[gun].getVentilatorDolulukOrani() + "'");
+            ortalamaFilyasyonSuresi.add("'" + history[gun].getOrtalamaFilyasyonSuresi() + "'");
+            ortalamaTemasliTespitSuresi.add("'" + history[gun].getOrtalamaTemasliTespitSuresi() + "'");
+            filyasyonOrani.add("'" + history[gun].getFilyasyonOrani() + "'");
+            if (!history[gun].getGunlukVaka().equals("0") && !history[gun].getGunlukTest().equals("0")) {
+                Float vakaSayisininGunlukTestSayisinaOrani = Float.parseFloat(history[gun].getGunlukVaka()) /
+                        Float.parseFloat(history[gun].getGunlukTest());
+                gunlukVakaSayisininGunlukTestSayisinaOrani.add("'" + String.format(Locale.US, "%.3f", vakaSayisininGunlukTestSayisinaOrani) + "'");
+            } else {
+                gunlukVakaSayisininGunlukTestSayisinaOrani.add("'0.000'");
+            }
         }
         model.addAttribute("sonDurum", sonDurum[0]);
         model.addAttribute("tarih", new SimpleDateFormat("dd MMMM yyyy", new Locale("tr")).format(sonDurum[0].getTarih()));
@@ -135,6 +162,14 @@ public class TurkeyDataController {
         model.addAttribute("hastalardaZaturreOran", hastalardaZaturreOran);
         model.addAttribute("agirHastaSayisi", agirHastaSayisi);
 
+
+        model.addAttribute("yatakDolulukOrani", yatakDolulukOrani);
+        model.addAttribute("eriskinYogunBakimDolulukOrani", eriskinYogunBakimDolulukOrani);
+        model.addAttribute("ventilatorDolulukOrani", ventilatorDolulukOrani);
+        model.addAttribute("ortalamaFilyasyonSuresi", ortalamaFilyasyonSuresi);
+        model.addAttribute("ortalamaTemasliTespitSuresi", ortalamaTemasliTespitSuresi);
+        model.addAttribute("filyasyonOrani", filyasyonOrani);
+        model.addAttribute("gunlukVakaSayisininGunlukTestSayisinaOrani", gunlukVakaSayisininGunlukTestSayisinaOrani);
         model.addAttribute("tarihList", tarihList);
         return "/dashboard.xhtml";
 

@@ -459,16 +459,22 @@ am4core.ready(function () {
 
 function drawChart(chartID, text, color, data, annotation, label) {
     var options = {
-        colors: [color],
+        colors: color,
         series: [{
             name: text[0],
-            data: data
+            data: data[0]
         }],
         chart: {
-            height: 350,
+            height: 380,
+            width: 380,
             type: 'area',
             zoom: {
-                enabled: false
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+                autoSelected: 'zoom'
             }
         }, annotations: {
             xaxis: [{
@@ -518,6 +524,7 @@ function drawChart(chartID, text, color, data, annotation, label) {
             categories: label,
             labels: {
                 rotate: -30,
+                type: 'datetime',
                 style: {
                     fontSize: '10px'
                 },
@@ -529,21 +536,27 @@ function drawChart(chartID, text, color, data, annotation, label) {
     chart.render();
 }
 
-function draw2LineChart(chartID, series1Name, series2Name, titleText, subTitleText, color1, color2, data, data2, label) {
+function draw2LineChart(chartID, seriesName, titleText, subTitleText, color, data, label) {
     var options = {
-        colors: [color1, color2],
+        colors: color,
         series: [{
-            name: series1Name,
-            data: data
+            name: seriesName[0],
+            data: data[0]
         }, {
-            name: series2Name,
-            data: data2
+            name: seriesName[1],
+            data: data[1]
         }],
         chart: {
-            height: 350,
+            height: 380,
+            width: 380,
             type: 'area',
             zoom: {
-                enabled: false
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+                autoSelected: 'zoom'
             }
 
         },
@@ -619,25 +632,30 @@ function draw2LineChart(chartID, series1Name, series2Name, titleText, subTitleTe
     chart.render();
 }
 
-function drawCombinedLineChart(chartID, series1Name, series2Name, series3Name, titleText, color1, color2, color3, data, data2, data3, annotation, label) {
+function drawCombinedLineChart(chartID, seriesName, titleText, color, data, annotation, label) {
     var options = {
-        colors: [color1, color2, color3],
+        colors: color,
         series: [{
-            name: series1Name,
-            data: data
+            name: seriesName[0],
+            data: data[0]
         }, {
-            name: series2Name,
-            data: data2
+            name: seriesName[1],
+            data: data[1]
         }, {
-            name: series3Name,
-            data: data3
+            name: seriesName[2],
+            data: data[2]
         }],
         chart: {
-            height: 350,
+            height: 380,
+            width: 380,
             type: 'area',
-            stacked: false,
             zoom: {
-                enabled: false
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+                autoSelected: 'zoom'
             }
 
         },
@@ -706,3 +724,81 @@ function drawCombinedLineChart(chartID, series1Name, series2Name, series3Name, t
     chart.render();
 }
 
+function drawSocialChart(chartID, data, data2, label) {
+
+    var labelFormatter = function (value) {
+        var val = Math.abs(value);
+        return val;
+    };
+
+    var options = {
+        series: [{
+            name: 'Günlük Vaka Sayısının \n Günlük Test Sayısına oranı',
+            type: 'column',
+            data: data2
+        }, {
+            name: 'Günlük Test Sayısı',
+            type: 'line',
+            data: data
+        }],
+        chart: {
+            height: 500,
+            type: 'line',
+            zoom: {
+                type: 'x',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+                autoSelected: 'zoom'
+            }
+
+        }, plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '50%',
+                endingShape: 'rounded'
+            }
+        },
+        stroke: {
+            width: 2,
+            curve: 'smooth'
+        },
+        title: {
+            text: 'Günlük Vaka Sayısının \n Günlük Test Sayısına oranı'
+        },
+        dataLabels: {
+            enabled: false
+        },
+        labels: label,
+        yaxis: [
+            {
+                title: {
+                    text: 'Günlük Vaka Sayısının \n Günlük Test Sayısına oranı'
+                }
+            }, {
+                opposite: true,
+                title: {
+                    text: 'Günlük Test Sayısı'
+                }, labels: {
+                    formatter: labelFormatter,
+                }
+
+            }
+
+        ],
+        xaxis: {
+            labels: {
+                rotate: -30,
+                type: 'datetime',
+                style: {
+                    fontSize: '10px'
+                },
+            }
+        }
+    };
+
+
+    var chart = new ApexCharts(document.getElementById(chartID), options);
+    chart.render();
+}

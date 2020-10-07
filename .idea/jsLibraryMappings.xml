@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{aa45ddd9ff, all, canvasjs, loader, popper.js}" />
+    <file url="file://$PROJECT_DIR$" libraries="{aa45ddd9ff, all, animated, bullets, canvasjs, charts, core, countries2, loader, maps, popper.js, timeline, tr_TR, turkeyLow, usaLow}" />
   </component>
 </project>

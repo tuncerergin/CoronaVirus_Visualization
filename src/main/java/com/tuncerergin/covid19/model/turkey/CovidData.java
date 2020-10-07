@@ -43,6 +43,16 @@ public class CovidData implements Serializable {
 
     public String agirHastaSayisi;
 
+    public String yatakDolulukOrani;
+
+
+    public String eriskinYogunBakimDolulukOrani;
+    public String ventilatorDolulukOrani;
+    public String ortalamaFilyasyonSuresi;
+    public String ortalamaTemasliTespitSuresi;
+    public String filyasyonOrani;
+
+
     public Date getTarih() throws ParseException {
         return new SimpleDateFormat("dd.MM.yyyy").parse(tarih);
     }
@@ -116,5 +126,41 @@ public class CovidData implements Serializable {
         agirHastaSayisi = agirHastaSayisi.replace(".", "");
         agirHastaSayisi = agirHastaSayisi.equals("") ? "0" : agirHastaSayisi;
         return agirHastaSayisi;
+    }
+
+    public String getYatakDolulukOrani() {
+        //   yatakDolulukOrani = yatakDolulukOrani.replace(".", "");
+        yatakDolulukOrani = yatakDolulukOrani.equals("") ? "0" : yatakDolulukOrani;
+        return yatakDolulukOrani;
+    }
+
+    public String getEriskinYogunBakimDolulukOrani() {
+        // eriskinYogunBakimDolulukOrani = eriskinYogunBakimDolulukOrani.replace(".", "");
+        eriskinYogunBakimDolulukOrani = eriskinYogunBakimDolulukOrani.equals("") ? "0" : eriskinYogunBakimDolulukOrani;
+        return eriskinYogunBakimDolulukOrani;
+    }
+
+    public String getVentilatorDolulukOrani() {
+        // ventilatorDolulukOrani = ventilatorDolulukOrani.replace(".", "");
+        ventilatorDolulukOrani = ventilatorDolulukOrani.equals("") ? "0" : ventilatorDolulukOrani;
+        return ventilatorDolulukOrani;
+    }
+
+    public String getOrtalamaFilyasyonSuresi() {
+        //ortalamaFilyasyonSuresi = ortalamaFilyasyonSuresi.replace(".", "");
+        ortalamaFilyasyonSuresi = ortalamaFilyasyonSuresi.equals("") ? "0" : ortalamaFilyasyonSuresi;
+        return ortalamaFilyasyonSuresi;
+    }
+
+    public String getOrtalamaTemasliTespitSuresi() {
+        //  ortalamaTemasliTespitSuresi = ortalamaTemasliTespitSuresi.replace(".", "");
+        ortalamaTemasliTespitSuresi = ortalamaTemasliTespitSuresi.equals("") ? "0" : ortalamaTemasliTespitSuresi;
+        return ortalamaTemasliTespitSuresi;
+    }
+
+    public String getFilyasyonOrani() {
+        //filyasyonOrani = filyasyonOrani.replace(".", "");
+        filyasyonOrani = filyasyonOrani.equals("") ? "0" : filyasyonOrani;
+        return filyasyonOrani;
     }
 }
