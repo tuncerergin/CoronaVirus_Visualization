@@ -406,8 +406,6 @@ am4core.ready(function () {
 
 
 });
-
-
 am4core.ready(function () {
 
 // Themes begin

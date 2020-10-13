@@ -10,167 +10,94 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Locale;
+import java.util.*;
 
 @Controller
 @RequestMapping("/turkey")
 public class TurkeyDataController {
     private final TurkeyRestService restService;
     CovidData[] history;
-    CovidData[] sonDurum;
-    ArrayList<String> toplamVaka;
-    ArrayList<String> toplamIyilesen;
-    ArrayList<String> toplamOlum;
-
-    ArrayList<String> gunlukVaka;
-    ArrayList<String> gunlukIyilesen;
-    ArrayList<String> gunlukOlum;
-    ArrayList<String> gunlukSonuc;
-    ArrayList<String> tarihList;
-    ArrayList<String> aktifVaka;
-    ArrayList<String> iyilesmeOrani;
-    ArrayList<String> olmeOrani;
-    ArrayList<String> testSayisi;
-
-    ArrayList<String> toplamYogunBakim;
-    ArrayList<String> toplamEntube;
-    ArrayList<String> hastalardaZaturreOran;
-    ArrayList<String> agirHastaSayisi;
-
-    ArrayList<String> yatakDolulukOrani;
-    ArrayList<String> eriskinYogunBakimDolulukOrani;
-    ArrayList<String> ventilatorDolulukOrani;
-    ArrayList<String> ortalamaFilyasyonSuresi;
-    ArrayList<String> ortalamaTemasliTespitSuresi;
-    ArrayList<String> filyasyonOrani;
-    ArrayList<String> gunlukVakaSayisininGunlukTestSayisinaOrani;
+    CovidData sonDurum;
 
     public TurkeyDataController(TurkeyRestService restService) {
         this.restService = restService;
     }
 
     @GetMapping("/data")
-    public String countryData(Model model) throws ParseException {
-        sonDurum = restService.getData("sondurum");
+    public String countryData(Model model) {
+        sonDurum = restService.getData("sondurum")[0];
         history = restService.getData("liste");
 
-        toplamVaka = new ArrayList<>();
-        toplamIyilesen = new ArrayList<>();
-        toplamOlum = new ArrayList<>();
+        Collections.reverse(Arrays.asList(history));
+        ArrayList<List<String>> list = new ArrayList<>();
+        for (int i = 0; i < 23; i++) {
+            list.add(new ArrayList<>());
+        }
+        Arrays.stream(history).parallel().forEachOrdered(covid -> {
 
-        gunlukVaka = new ArrayList<>();
-        gunlukIyilesen = new ArrayList<>();
-        gunlukOlum = new ArrayList<>();
-        gunlukSonuc = new ArrayList<>();
-        tarihList = new ArrayList<>();
-        aktifVaka = new ArrayList<>();
-        iyilesmeOrani = new ArrayList<>();
-        olmeOrani = new ArrayList<>();
-        testSayisi = new ArrayList<>();
+            try {
+                list.get(0).add("'" + new SimpleDateFormat("dd.MM.yyyy", new Locale("tr")).format(covid.getTarih()) + "'");
+            } catch (ParseException ignored) {
+            }
 
-        toplamYogunBakim = new ArrayList<>();
-        toplamEntube = new ArrayList<>();
-        hastalardaZaturreOran = new ArrayList<>();
-        agirHastaSayisi = new ArrayList<>();
-
-        yatakDolulukOrani = new ArrayList<>();
-        eriskinYogunBakimDolulukOrani = new ArrayList<>();
-        ventilatorDolulukOrani = new ArrayList<>();
-        ortalamaFilyasyonSuresi = new ArrayList<>();
-        ortalamaTemasliTespitSuresi = new ArrayList<>();
-        filyasyonOrani = new ArrayList<>();
-        gunlukVakaSayisininGunlukTestSayisinaOrani = new ArrayList<>();
-        for (int gun = history.length - 1; gun >= 0; gun--) {
-            toplamVaka.add("'" + history[gun].getToplamVaka() + "'");
-            toplamIyilesen.add("'" + history[gun].getToplamIyilesen() + "'");
-            toplamOlum.add("'" + history[gun].getToplamVefat() + "'");
-
-            gunlukVaka.add("'" + history[gun].getGunlukVaka() + "'");
-            gunlukIyilesen.add("'" + history[gun].getGunlukIyilesen() + "'");
-            gunlukOlum.add("'" + history[gun].getGunlukVefat() + "'");
-            gunlukSonuc.add("'" + (Integer.parseInt(history[gun].getGunlukVaka().trim()) -
-                    Integer.parseInt(history[gun].getGunlukIyilesen().trim()) +
-                    Integer.parseInt(history[gun].getGunlukVefat().trim())) + "'");
-            tarihList.add("'" + new SimpleDateFormat("dd.MM.yyyy").format(history[gun].getTarih()) + "'");
-
-            aktifVaka.add(String.valueOf(
-                    Integer.parseInt(history[gun].getToplamVaka()) -
-                            Integer.parseInt(history[gun].getToplamIyilesen()) -
-                            Integer.parseInt(history[gun].getToplamVefat())
-            ));
+            list.get(1).add("'" + covid.getToplamVaka() + "'");
+            list.get(2).add("'" + covid.getToplamIyilesen() + "'");
+            list.get(3).add("'" + covid.getToplamVefat() + "'");
+            list.get(4).add("'" + covid.getGunlukVaka() + "'");
+            list.get(5).add("'" + covid.getGunlukIyilesen() + "'");
+            list.get(6).add("'" + covid.getGunlukVefat() + "'");
+            list.get(7).add(String.valueOf(
+                    Integer.parseInt(covid.getToplamVaka()) -
+                            Integer.parseInt(covid.getToplamIyilesen()) -
+                            Integer.parseInt(covid.getToplamVefat())
+                    )
+            );
             /*
              * Total Closed data =total recovered cases+total death cases
              * Recovery rate = total recovered cases/toal closed cases*100
              * Mortality rate = total death cases/toal closed cases*100
              * */
-            Float recoveryRate = Float.parseFloat(history[gun].getToplamIyilesen()) /
-                    (Float.parseFloat(history[gun].getToplamIyilesen()) + Float.parseFloat(history[gun].getToplamVefat()))
-                    * (float) 100;
+            list.get(8).add(String.format(Locale.US, "%.2f",
+                    Float.parseFloat(covid.getToplamVefat()) /
+                            (Float.parseFloat(covid.getToplamIyilesen()) + Float.parseFloat(covid.getToplamVefat()))
+                            * (float) 100)
+            );
+            list.get(9).add(String.format(Locale.US, "%.2f",
+                    Float.parseFloat(covid.getToplamIyilesen()) /
+                            (Float.parseFloat(covid.getToplamIyilesen()) + Float.parseFloat(covid.getToplamVefat()))
+                            * (float) 100)
+            );
 
-            Float mortalityRate = Float.parseFloat(history[gun].getToplamVefat()) /
-                    (Float.parseFloat(history[gun].getToplamIyilesen()) + Float.parseFloat(history[gun].getToplamVefat()))
-                    * (float) 100;
+            list.get(10).add("'" + covid.getGunlukTest() + "'");
+            list.get(11).add("'" + covid.getToplamYogunBakim() + "'");
+            list.get(12).add("'" + covid.getToplamEntube() + "'");
+            list.get(13).add("'" + covid.getAgirHastaSayisi() + "'");
+            list.get(14).add("'" + covid.getHastalardaZaturreOran() + "'");
+            list.get(15).add("'" + (
+                    Integer.parseInt(covid.getGunlukVaka().trim()) -
+                            Integer.parseInt(covid.getGunlukIyilesen().trim()) +
+                            Integer.parseInt(covid.getGunlukVefat().trim())
+            ) + "'");
+            list.get(16).add("'" + covid.getYatakDolulukOrani() + "'");
+            list.get(17).add("'" + covid.getEriskinYogunBakimDolulukOrani() + "'");
+            list.get(18).add("'" + covid.getVentilatorDolulukOrani() + "'");
+            list.get(19).add("'" + covid.getOrtalamaFilyasyonSuresi() + "'");
+            list.get(20).add("'" + covid.getOrtalamaTemasliTespitSuresi() + "'");
+            list.get(21).add("'" + covid.getFilyasyonOrani() + "'");
+            list.get(22).add("'" + (
+                    !covid.getGunlukVaka().equals("0") && !covid.getGunlukTest().equals("0") ?
+                            String.format(Locale.US, "%.3f", Float.parseFloat(covid.getGunlukVaka()) / Float.parseFloat(covid.getGunlukTest())) : "0.000"
+            ) + "'");
+        });
 
-
-            olmeOrani.add(String.format(Locale.US, "%.2f", mortalityRate));
-            iyilesmeOrani.add(String.format(Locale.US, "%.2f", recoveryRate));
-
-            testSayisi.add("'" + history[gun].getGunlukTest() + "'");
-
-
-            toplamYogunBakim.add("'" + history[gun].getToplamYogunBakim() + "'");
-
-            toplamEntube.add("'" + history[gun].getToplamEntube() + "'");
-
-            agirHastaSayisi.add("'" + history[gun].getAgirHastaSayisi() + "'");
-
-            hastalardaZaturreOran.add("'" + history[gun].getHastalardaZaturreOran() + "'");
-
-            yatakDolulukOrani.add("'" + history[gun].getYatakDolulukOrani() + "'");
-            eriskinYogunBakimDolulukOrani.add("'" + history[gun].getEriskinYogunBakimDolulukOrani() + "'");
-            ventilatorDolulukOrani.add("'" + history[gun].getVentilatorDolulukOrani() + "'");
-            ortalamaFilyasyonSuresi.add("'" + history[gun].getOrtalamaFilyasyonSuresi() + "'");
-            ortalamaTemasliTespitSuresi.add("'" + history[gun].getOrtalamaTemasliTespitSuresi() + "'");
-            filyasyonOrani.add("'" + history[gun].getFilyasyonOrani() + "'");
-            if (!history[gun].getGunlukVaka().equals("0") && !history[gun].getGunlukTest().equals("0")) {
-                Float vakaSayisininGunlukTestSayisinaOrani = Float.parseFloat(history[gun].getGunlukVaka()) /
-                        Float.parseFloat(history[gun].getGunlukTest());
-                gunlukVakaSayisininGunlukTestSayisinaOrani.add("'" + String.format(Locale.US, "%.3f", vakaSayisininGunlukTestSayisinaOrani) + "'");
-            } else {
-                gunlukVakaSayisininGunlukTestSayisinaOrani.add("'0.000'");
-            }
+        model.addAttribute("data", list);
+        model.addAttribute("sonDurum", sonDurum);
+        try {
+            model.addAttribute("tarih", new SimpleDateFormat("dd MMMM yyyy", new Locale("tr")).format(sonDurum.getTarih()));
+        } catch (ParseException ignored) {
+            model.addAttribute("tarih", "Tarih çözümlenemedi.");
         }
-        model.addAttribute("sonDurum", sonDurum[0]);
-        model.addAttribute("tarih", new SimpleDateFormat("dd MMMM yyyy", new Locale("tr")).format(sonDurum[0].getTarih()));
-        model.addAttribute("toplamVaka", toplamVaka);
-        model.addAttribute("toplamIyilesen", toplamIyilesen);
-        model.addAttribute("toplamOlum", toplamOlum);
 
-        model.addAttribute("gunlukVaka", gunlukVaka);
-        model.addAttribute("gunlukIyilesen", gunlukIyilesen);
-        model.addAttribute("gunlukOlum", gunlukOlum);
-        model.addAttribute("gunlukSonuc", gunlukSonuc);
-        model.addAttribute("aktifVaka", aktifVaka);
-
-        model.addAttribute("iyilesmeOrani", iyilesmeOrani);
-        model.addAttribute("olmeOrani", olmeOrani);
-        model.addAttribute("testSayisi", testSayisi);
-
-        model.addAttribute("toplamYogunBakim", toplamYogunBakim);
-        model.addAttribute("toplamEntube", toplamEntube);
-        model.addAttribute("hastalardaZaturreOran", hastalardaZaturreOran);
-        model.addAttribute("agirHastaSayisi", agirHastaSayisi);
-
-
-        model.addAttribute("yatakDolulukOrani", yatakDolulukOrani);
-        model.addAttribute("eriskinYogunBakimDolulukOrani", eriskinYogunBakimDolulukOrani);
-        model.addAttribute("ventilatorDolulukOrani", ventilatorDolulukOrani);
-        model.addAttribute("ortalamaFilyasyonSuresi", ortalamaFilyasyonSuresi);
-        model.addAttribute("ortalamaTemasliTespitSuresi", ortalamaTemasliTespitSuresi);
-        model.addAttribute("filyasyonOrani", filyasyonOrani);
-        model.addAttribute("gunlukVakaSayisininGunlukTestSayisinaOrani", gunlukVakaSayisininGunlukTestSayisinaOrani);
-        model.addAttribute("tarihList", tarihList);
         return "/dashboard.xhtml";
 
     }

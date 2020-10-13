@@ -298,27 +298,31 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/drawChart.js"></script>
 <script type="text/javascript">
 
-    drawSocialChart('gtestSayisi', ${testSayisi}, ${gunlukVakaSayisininGunlukTestSayisinaOrani},${tarihList})
-    drawChart('toplamVaka', ['Toplam vaka'], ['#008FFB'], [${toplamVaka}], '',${tarihList})
-    drawChart('toplamIyilesen', ['Toplam iyileşen'], ['#00E396'], [${toplamIyilesen}], '',${tarihList})
-    drawChart('toplamOlum', ['Toplam vefat'], ['#FF1654'], [${toplamOlum}], '',${tarihList})
-    drawChart('gunlukVaka', ['Günlük vaka'], ['#008FFB'], [${gunlukVaka}], '',${tarihList})
-    drawChart('gunlukIyilesen', ['Günlük iyileşen'], ['#00E396'], [${gunlukIyilesen}], '',${tarihList})
-    drawChart('gunlukOlum', ['Günlük vefat'], ['#FF1654'], [${gunlukOlum}], '',${tarihList})
-    drawChart('aktifVaka', ['Aktif vaka'], ['#775DD0'], [${aktifVaka}], '',${tarihList})
-    drawChart('gunlukSonuc', ['Günlük Aktif Vaka Artışı', 'Günlük yeni vaka - Günlük kapatılan vaka'], ['#775DD0'], [${gunlukSonuc}], '',${tarihList})
-    drawChart('testSayisi', ['Günlük Test Sayısı'], ['#F86624'], [${testSayisi}], '',${tarihList})
-    drawChart('hastalardaZaturreOran', ['Hastalarda zatürre oranı'], ['#FF1654'], [${hastalardaZaturreOran}], ['28.07.2020', 'Veri akışı başlatıldı.'],${tarihList})
-    drawChart('yatakDolulukOrani', ['Yatak doluluk oranı'], ['#008FFB'], [${yatakDolulukOrani}], ['30.09.2020', 'Veri akışı başlatıldı.'],${tarihList})
-    drawChart('eriskinYogunBakimDolulukOrani', ['Erişkin yoğun bakım doluluk oranı'], ['#00E396'], [${eriskinYogunBakimDolulukOrani}], ['30.09.2020', 'Veri akışı başlatıldı.'],${tarihList})
-    drawChart('ventilatorDolulukOrani', ['Vantilator doluluk oranı'], ['#FF1654'], [${ventilatorDolulukOrani}], ['30.09.2020', 'Veri akışı başlatıldı.'],${tarihList})
-    drawChart('ortalamaFilyasyonSuresi', ['Ortalama filyasyon süresi'], ['#008FFB'], [${ortalamaFilyasyonSuresi}], ['30.09.2020', 'Veri akışı başlatıldı.'],${tarihList})
-    drawChart('ortalamaTemasliTespitSuresi', ['Ortalama temaslı tespit süresi'], ['#00E396'], [${ortalamaTemasliTespitSuresi}], ['30.09.2020', 'Veri akışı başlatıldı.'],${tarihList})
-    drawChart('filyasyonOrani', ['Filyasyon oranı'], ['#FF1654'], [${filyasyonOrani}], ['30.09.2020', 'Veri akışı başlatıldı.'],${tarihList})
+    drawChart('toplamVaka', ['Toplam vaka'], ['#008FFB'], [${data.get(1)}], '',${data.get(0)})
+    drawChart('toplamIyilesen', ['Toplam iyileşen'], ['#00E396'], [${data.get(2)}], '',${data.get(0)})
+    drawChart('toplamOlum', ['Toplam vefat'], ['#FF1654'], [${data.get(3)}], '',${data.get(0)})
 
+    drawChart('gunlukVaka', ['Günlük vaka'], ['#008FFB'], [${data.get(4)}], '',${data.get(0)})
+    drawChart('gunlukIyilesen', ['Günlük iyileşen'], ['#00E396'], [${data.get(5)}], '',${data.get(0)})
+
+    drawChart('gunlukOlum', ['Günlük vefat'], ['#FF1654'], [${data.get(6)}], '',${data.get(0)})
+
+    drawChart('aktifVaka', ['Aktif vaka'], ['#775DD0'], [${data.get(7)}], '',${data.get(0)})
+    drawChart('testSayisi', ['Günlük Test Sayısı'], ['#F86624'], [${data.get(10)}], '',${data.get(0)})
     drawCombinedLineChart('toplamYogunAgirEntubeHasta', ['Toplam yoğun bakım', 'Toplam entübe', 'Ağır hasta sayısı'], 'Top. y. bakım, entübe ve ağır hasta',
-        ['#43BCCD', '#00B1F2', '#A300D6'], [${toplamYogunBakim},${toplamEntube},${agirHastaSayisi}], ['29.07.2020', 'Veri akışı değiştirildi.'],${tarihList})
-    draw2LineChart('vakaSonucu', ['İyileşme oranı', 'Vefat oranı'], 'Vakaların Sonucu(İyileşme yada Vefat)', 'Toplam {İyileşen,Vefat}/(Toplam İyileşen+Toplam Vefat)*100', ['#00E396', '#FF1654'], [${iyilesmeOrani},${olmeOrani}],${tarihList})
+        ['#43BCCD', '#00B1F2', '#A300D6'], [${data.get(11)},${data.get(12)},${data.get(13)}], ['29.07.2020', 'Veri akışı değiştirildi.'],${data.get(0)})
+
+    drawChart('hastalardaZaturreOran', ['Hastalarda zatürre oranı'], ['#FF1654'], [${data.get(14)}], ['28.07.2020', 'Veri akışı başlatıldı.'],${data.get(0)})
+    drawChart('gunlukSonuc', ['Günlük Aktif Vaka Artışı', 'Günlük yeni vaka - Günlük kapatılan vaka'], ['#775DD0'], [${data.get(15)}], '',${data.get(0)})
+    drawChart('yatakDolulukOrani', ['Yatak doluluk oranı'], ['#008FFB'], [${data.get(16)}], ['30.09.2020', 'Veri akışı başlatıldı.'],${data.get(0)})
+    drawChart('eriskinYogunBakimDolulukOrani', ['Erişkin yoğun bakım doluluk oranı'], ['#00E396'], [${data.get(17)}], ['30.09.2020', 'Veri akışı başlatıldı.'],${data.get(0)})
+    drawChart('ventilatorDolulukOrani', ['Vantilator doluluk oranı'], ['#FF1654'], [${data.get(18)}], ['30.09.2020', 'Veri akışı başlatıldı.'],${data.get(0)})
+    drawChart('ortalamaFilyasyonSuresi', ['Ortalama filyasyon süresi'], ['#008FFB'], [${data.get(19)}], ['30.09.2020', 'Veri akışı başlatıldı.'],${data.get(0)})
+    drawChart('ortalamaTemasliTespitSuresi', ['Ortalama temaslı tespit süresi'], ['#00E396'], [${data.get(20)}], ['30.09.2020', 'Veri akışı başlatıldı.'],${data.get(0)})
+    drawChart('filyasyonOrani', ['Filyasyon oranı'], ['#FF1654'], [${data.get(21)}], ['30.09.2020', 'Veri akışı başlatıldı.'],${data.get(0)})
+
+    drawSocialChart('gtestSayisi', ${data.get(10)}, ${data.get(22)},${data.get(0)})
+    draw2LineChart('vakaSonucu', ['İyileşme oranı', 'Vefat oranı'], 'Vakaların Sonucu(İyileşme yada Vefat)', 'Toplam {İyileşen,Vefat}/(Toplam İyileşen+Toplam Vefat)*100', ['#00E396', '#FF1654'], [${data.get(9)},${data.get(8)}],${data.get(0)})
 
 
 </script>
